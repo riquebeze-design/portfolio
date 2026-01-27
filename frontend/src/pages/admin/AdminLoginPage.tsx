@@ -42,11 +42,11 @@ const AdminLoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md p-6 rounded-2xl shadow-xl border-2 border-purple-100">
+    <div className="flex items-center justify-center min-h-screen p-4"> {/* Removido o gradiente de fundo */}
+      <Card className="w-full max-w-md p-6 rounded-2xl shadow-xl border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
         <CardHeader className="text-center">
-          <CardTitle className="text-4xl font-extrabold text-purple-800 mb-2">Login Admin</CardTitle>
-          <p className="text-gray-600">Acesse o painel de administração</p>
+          <CardTitle className="text-4xl font-extrabold text-purple-800 dark:text-purple-300 mb-2">Login Admin</CardTitle>
+          <p className="text-gray-600 dark:text-gray-400">Acesse o painel de administração</p>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -56,7 +56,7 @@ const AdminLoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-gray-800">Email</FormLabel>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Email</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -64,7 +64,7 @@ const AdminLoginPage = () => {
                           type="email"
                           placeholder="admin@example.com"
                           {...field}
-                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                         />
                       </div>
                     </FormControl>
@@ -77,7 +77,7 @@ const AdminLoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-gray-800">Senha</FormLabel>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Senha</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -85,7 +85,7 @@ const AdminLoginPage = () => {
                           type="password"
                           placeholder="********"
                           {...field}
-                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                         />
                       </div>
                     </FormControl>
