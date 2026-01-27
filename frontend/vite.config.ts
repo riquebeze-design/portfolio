@@ -12,9 +12,10 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "react/jsx-runtime": "react/jsx-runtime.js", // Adiciona alias explícito
     },
   },
   optimizeDeps: {
-    include: ['framer-motion'], // Adiciona framer-motion para pré-empacotamento
+    include: ['framer-motion'],
   },
 }));
