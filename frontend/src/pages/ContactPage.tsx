@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { showSuccess, showError } from '@/utils/toast';
 import { Mail, Phone, User } from 'lucide-react';
-import { Card } from '@/components/ui/card'; // Importar Card
+import { Card, CardContent } from '@/components/ui/card'; // Importar CardContent
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -50,32 +50,33 @@ const ContactPage = () => {
       </p>
 
       <Card className="max-w-3xl mx-auto p-8 rounded-2xl shadow-xl bg-purple-50 border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Nome Completo</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                      <Input
-                        placeholder="Seu nome"
-                        {...field}
-                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
+        <CardContent> {/* <--- CardContent agora envolve o Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Nome Completo</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Input
+                          placeholder="Seu nome"
+                          {...field}
+                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Email</FormLabel>
                     <FormControl>
@@ -93,54 +94,55 @@ const ContactPage = () => {
                   </FormItem>
                 )}
               />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Telefone (Opcional)</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                      <Input
-                        type="tel"
-                        placeholder="(XX) XXXXX-XXXX"
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Telefone (Opcional)</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Input
+                          type="tel"
+                          placeholder="(XX) XXXXX-XXXX"
+                          {...field}
+                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Mensagem</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Descreva seu projeto ou sua dúvida..."
+                        rows={5}
                         {...field}
-                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
+                        className="rounded-xl border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm p-4 dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                       />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Mensagem</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descreva seu projeto ou sua dúvida..."
-                      rows={5}
-                      {...field}
-                      className="rounded-xl border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm p-4 dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3 text-lg shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
-            </Button>
-          </form>
-        </CardContent>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full py-3 text-lg shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
+              </Button>
+            </form>
+          </Form>
+        </CardContent> {/* <--- Tag de fechamento movida para aqui */}
       </Card>
     </div>
   );
