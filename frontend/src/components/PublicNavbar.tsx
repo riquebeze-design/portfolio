@@ -21,7 +21,7 @@ const PublicNavbar: React.FC<PublicNavbarProps> = ({
   const navigate = useNavigate();
 
   return (
-    <nav className="w-full px-6 py-4 bg-background/80 backdrop-blur-md shadow-sm sticky top-0 z-50 rounded-b-lg">
+    <nav className="w-full px-6 py-4 bg-black shadow-sm sticky top-0 z-50 rounded-none">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-lg bg-border backdrop-blur-md border border-border flex items-center justify-center">

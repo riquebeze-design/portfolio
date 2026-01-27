@@ -32,21 +32,21 @@ const PublicLayout = () => {
         <Outlet />
       </main>
 
-      <footer className="bg-purple-800 text-white py-8 mt-12 rounded-t-lg shadow-lg dark:bg-gray-900">
+      <footer className="bg-black text-white py-8 mt-12 rounded-none shadow-lg dark:bg-black">
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col md:flex-row justify-between items-center mb-6">
             <div className="mb-4 md:mb-0">
               <h3 className="text-xl font-semibold mb-2 dark:text-white">Meu Portfólio</h3>
-              <p className="text-sm text-purple-200 dark:text-gray-400">Criando experiências digitais incríveis.</p>
+              <p className="text-sm text-gray-300 dark:text-gray-400">Criando experiências digitais incríveis.</p>
             </div>
             <div className="flex space-x-6">
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-purple-200 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
+              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
                 <Github size={24} />
               </a>
-              <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" className="text-purple-200 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
+              <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
                 <Linkedin size={24} />
               </a>
-              <a href="mailto:your.email@example.com" className="text-purple-200 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
+              <a href="mailto:your.email@example.com" className="text-gray-300 hover:text-white transition-colors dark:text-gray-400 dark:hover:text-white">
                 <Mail size={24} />
               </a>
             </div>
@@ -55,7 +55,7 @@ const PublicLayout = () => {
           <Button onClick={() => navigate('/admin/login')} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium mb-4">
             <LogIn className="mr-2 h-4 w-4" /> Admin Login
           </Button>
-          <p className="text-sm text-purple-300 dark:text-gray-500">&copy; {new Date().getFullYear()} Meu Portfólio. Todos os direitos reservados.</p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">&copy; {new Date().getFullYear()} Meu Portfólio. Todos os direitos reservados.</p>
           <MadeWithDyad />
         </div>
       </footer>
