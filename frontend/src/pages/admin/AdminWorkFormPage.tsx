@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Card } from '@/components/ui/card';
 import { Loader2, ArrowLeft } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 import { useWorkForm } from '@/hooks/use-work-form';
 import WorkDetailsFormSection from '@/components/admin/WorkDetailsFormSection';
 import WorkStatusAndFeaturesSection from '@/components/admin/WorkStatusAndFeaturesSection';
@@ -12,7 +11,8 @@ import WorkImageUploadSection from '@/components/admin/WorkImageUploadSection';
 
 const AdminWorkFormPage = () => {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  // O token não é mais necessário aqui, pois useWorkForm utiliza authenticatedAxios do AuthContext
+  // const { token } = useAuth(); 
 
   const {
     form,
@@ -25,7 +25,7 @@ const AdminWorkFormPage = () => {
     updateWorkMutation,
     handleFileUpload,
     onSubmit,
-  } = useWorkForm({ token });
+  } = useWorkForm(); // Removido { token }
 
   if (isLoadingWork) {
     return (
