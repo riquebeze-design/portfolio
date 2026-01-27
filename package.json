@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd frontend && pnpm dev",
+    "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "install-all": "pnpm install",
     "build-all": "pnpm --filter frontend build && pnpm --filter backend build",
     "start-frontend": "pnpm --filter frontend dev",
@@ -21,6 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.4.11",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "concurrently": "^8.2.2"
   }
 }
