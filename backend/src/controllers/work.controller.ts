@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { Work } from '../types/prisma.d'; // Importar a interface Work
 
 const prisma = new PrismaClient();
 
@@ -40,7 +41,7 @@ export const getWorks = async (req: Request, res: Response) => {
     const totalWorks = await prisma.work.count({ where });
 
     // Mapeia os trabalhos para analisar as tags de string JSON para array
-    const formattedWorks = works.map(work => ({
+    const formattedWorks: Work[] = works.map((work: any) => ({ // Adicionado tipo 'any' temporariamente para work
       ...work,
       tags: JSON.parse(work.tags), // Analisa as tags de volta para array
     }));
@@ -72,7 +73,7 @@ export const getWorkBySlug = async (req: Request, res: Response) => {
     }
 
     // Analisa as tags de string JSON para array
-    const formattedWork = {
+    const formattedWork: Work = {
       ...work,
       tags: JSON.parse(work.tags),
     };

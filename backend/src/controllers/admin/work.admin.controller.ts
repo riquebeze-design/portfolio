@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import slugify from 'slugify';
+import { Work } from '../../types/prisma.d'; // Importar a interface Work
 
 const prisma = new PrismaClient();
 
@@ -43,7 +44,7 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
     const totalWorks = await prisma.work.count({ where });
 
     // Mapeia os trabalhos para analisar as tags de string JSON para array
-    const formattedWorks = works.map(work => ({
+    const formattedWorks: Work[] = works.map((work: any) => ({ // Adicionado tipo 'any' temporariamente para work
       ...work,
       tags: JSON.parse(work.tags), // Analisa as tags de volta para array
     }));
@@ -75,7 +76,7 @@ export const getWorkByIdAdmin = async (req: Request, res: Response) => {
     }
 
     // Analisa as tags de string JSON para array
-    const formattedWork = {
+    const formattedWork: Work = {
       ...work,
       tags: JSON.parse(work.tags),
     };
@@ -119,7 +120,7 @@ export const createWork = async (req: Request, res: Response) => {
       include: { images: true },
     });
     // Analisa as tags de volta para a resposta
-    const formattedWork = {
+    const formattedWork: Work = {
       ...work,
       tags: JSON.parse(work.tags),
     };
@@ -135,7 +136,7 @@ export const updateWork = async (req: Request, res: Response) => {
   const { title, slug, category, type, year, client, description, tags, featured, status, coverImageUrl, externalUrl, images } = req.body;
 
   try {
-    const currentWork = await prisma.work.findUnique({ where: { id } });
+    const currentWork = await prisma.work.findUnique({ where: { id }, include: { images: true } });
     if (!currentWork) {
       return res.status(404).json({ message: 'Work not found' });
     }
@@ -201,7 +202,7 @@ export const updateWork = async (req: Request, res: Response) => {
       include: { images: true },
     });
     // Analisa as tags de volta para a resposta
-    const formattedWork = {
+    const formattedWork: Work = {
       ...work,
       tags: JSON.parse(work.tags),
     };
