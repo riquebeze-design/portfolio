@@ -97,7 +97,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans; /* Adicionado font-sans aqui */
   }
 }
 
@@ -138,13 +138,7 @@
   animation: float 3s ease-in-out infinite;
 }
 
-.geist-font {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-.inter-font {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
+/* Removido geist-font e inter-font */
 
 .gradient-text {
   background: linear-gradient(to right, #8a2be2, #4b0082); /* Purple gradient */

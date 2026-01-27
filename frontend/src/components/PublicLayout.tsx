@@ -52,7 +52,7 @@ const PublicLayout = () => {
             </div>
           </div>
           <Separator className="bg-purple-700 my-6 dark:bg-gray-700" />
-          <Button onClick={() => navigate('/admin/login')} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium inter-font mb-4">
+          <Button onClick={() => navigate('/admin/login')} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium mb-4">
             <LogIn className="mr-2 h-4 w-4" /> Admin Login
           </Button>
           <p className="text-sm text-purple-300 dark:text-gray-500">&copy; {new Date().getFullYear()} Meu Portfólio. Todos os direitos reservados.</p>

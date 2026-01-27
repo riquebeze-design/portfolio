@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { showSuccess, showError } from '@/utils/toast';
 import { Mail, Phone, User } from 'lucide-react';
+import { Card } from '@/components/ui/card'; // Importar Card
 
 const API_URL = import.meta.env.VITE_API_URL;
 

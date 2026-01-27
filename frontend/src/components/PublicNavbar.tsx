@@ -25,22 +25,22 @@ const PublicNavbar: React.FC<PublicNavbarProps> = ({
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-lg bg-border backdrop-blur-md border border-border flex items-center justify-center">
-            <span className="geist-font text-sm font-bold text-foreground">{logoInitials}</span>
+            <span className="text-sm font-bold text-foreground">{logoInitials}</span>
           </div>
-          <Link to="/" className="geist-font text-lg font-medium text-foreground hover:text-purple-700 transition-colors">
+          <Link to="/" className="text-lg font-medium text-foreground hover:text-purple-700 transition-colors">
             {logoName}
           </Link>
         </div>
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map(link => (
-            <Button key={link.label} asChild variant="ghost" className="text-muted-foreground hover:text-foreground transition-colors inter-font text-sm rounded-full px-4 py-2">
+            <Button key={link.label} asChild variant="ghost" className="text-muted-foreground hover:text-foreground transition-colors text-sm rounded-full px-4 py-2">
               <Link to={link.to}>{link.label}</Link>
             </Button>
           ))}
         </div>
         <div className="flex items-center space-x-4">
           {onResumeClick && (
-            <Button onClick={onResumeClick} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium inter-font">
+            <Button onClick={onResumeClick} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium">
               {resumeLabel}
             </Button>
           )}

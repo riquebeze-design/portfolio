@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Red Hat Display"', 'sans-serif'], // Definindo Red Hat Display como a fonte sans padrão
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
