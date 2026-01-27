@@ -56,12 +56,12 @@ const AdminLayout = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen text-foreground"> {/* Removed bg-gray-50 */}
       {isMobile ? (
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="fixed top-4 left-4 z-50 bg-white rounded-full shadow-md">
-              <Menu className="h-6 w-6 text-purple-700" />
+            <Button variant="ghost" size="icon" className="fixed top-4 left-4 z-50 bg-white rounded-full shadow-md dark:bg-gray-900">
+              <Menu className="h-6 w-6 text-purple-700 dark:text-purple-400" />
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64">
@@ -75,8 +75,8 @@ const AdminLayout = () => {
       )}
 
       <div className="flex-grow flex flex-col">
-        <header className="w-full bg-white/80 backdrop-blur-md shadow-sm p-4 flex items-center justify-between sticky top-0 z-40 rounded-b-lg">
-          <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
+        <header className="w-full bg-white/80 backdrop-blur-md shadow-sm p-4 flex items-center justify-between sticky top-0 z-40 rounded-b-lg dark:bg-black/80">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Admin Panel</h1>
           {!isMobile && (
             <Button onClick={logout} variant="destructive" className="rounded-full px-6 py-3">
               <LogOut className="mr-2 h-4 w-4" />

@@ -40,39 +40,42 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<PublicLayout />}>
-              <Route index element={<Index />} />
-              <Route path="trabalhos" element={<WorksPage />} />
-              <Route path="trabalhos/:slug" element={<WorkDetailPage />} />
-              <Route path="contato" element={<ContactPage />} />
-            </Route>
+        {/* Adiciona a classe 'dark' ao elemento raiz para ativar o tema escuro */}
+        <div className="dark"> 
+          <AuthProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<PublicLayout />}>
+                <Route index element={<Index />} />
+                <Route path="trabalhos" element={<WorksPage />} />
+                <Route path="trabalhos/:slug" element={<WorkDetailPage />} />
+                <Route path="contato" element={<ContactPage />} />
+              </Route>
 
-            {/* Admin Login */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
+              {/* Admin Login */}
+              <Route path="/admin/login" element={<AdminLoginPage />} />
 
-            {/* Admin Protected Routes */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<AdminDashboardPage />} />
-              <Route path="works" element={<AdminWorksPage />} />
-              <Route path="works/new" element={<AdminWorkFormPage />} />
-              <Route path="works/edit/:id" element={<AdminWorkFormPage />} />
-              <Route path="leads" element={<AdminLeadsPage />} />
-            </Route>
+              {/* Admin Protected Routes */}
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<AdminDashboardPage />} />
+                <Route path="works" element={<AdminWorksPage />} />
+                <Route path="works/new" element={<AdminWorkFormPage />} />
+                <Route path="works/edit/:id" element={<AdminWorkFormPage />} />
+                <Route path="leads" element={<AdminLeadsPage />} />
+              </Route>
 
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
