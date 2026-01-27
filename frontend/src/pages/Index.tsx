@@ -1,6 +1,7 @@
 import React from 'react';
 import { PortfolioPage, PortfolioPageProps } from "@/components/ui/starfall-portfolio-landing";
 import { useNavigate } from 'react-router-dom';
+import { Case } from '@/components/ui/cases-with-infinite-scroll'; // Import the new Case component
 
 const Index = () => {
   const navigate = useNavigate();
@@ -61,7 +62,12 @@ const Index = () => {
     hideNavbar: true, // Esconde a navbar interna do PortfolioPage
   };
 
-  return <PortfolioPage {...customPortfolioData} />;
+  return (
+    <>
+      <PortfolioPage {...customPortfolioData} />
+      <Case /> {/* The new Case component is placed here */}
+    </>
+  );
 };
 
 export default Index;
