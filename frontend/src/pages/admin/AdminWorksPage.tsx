@@ -26,7 +26,7 @@ interface Work {
 }
 
 const AdminWorksPage = () => {
-  const { token } = useAuth();
+  const { authenticatedAxios } = useAuth(); // Usar authenticatedAxios
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState('');
@@ -48,19 +48,15 @@ const AdminWorksPage = () => {
       if (type) params.append('type', type);
       if (status) params.append('status', status);
 
-      const response = await axios.get(`${API_URL}/admin/works?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.get(`${API_URL}/admin/works?${params.toString()}`); // Usar authenticatedAxios
       return response.data;
     },
-    enabled: !!token,
+    enabled: true, // Não precisa mais de !!token
   });
 
   const deleteWorkMutation = useMutation({
     mutationFn: async (id: string) => {
-      await axios.delete(`${API_URL}/admin/works/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await authenticatedAxios.delete(`${API_URL}/admin/works/${id}`); // Usar authenticatedAxios
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminWorks'] });

@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import axios from 'axios';
 import slugify from 'slugify';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { showSuccess, showError } from '@/utils/toast';
 import { WorkCategory, WorkType, WorkStatus } from '@/types/work';
 import { UseFormReturn, FieldArrayWithId } from 'react-hook-form';
+import { useAuth } from '@/contexts/AuthContext'; // Importar useAuth
+import { supabase } from '@/lib/supabase'; // Importar o cliente Supabase
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -35,14 +36,15 @@ const workFormSchema = z.object({
 export type WorkFormValues = z.infer<typeof workFormSchema>;
 
 interface UseWorkFormProps {
-  token: string | null;
+  // O token não é mais passado diretamente, pois authenticatedAxios já o gerencia
 }
 
-export const useWorkForm = ({ token }: UseWorkFormProps) => {
+export const useWorkForm = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const isEditing = !!id;
+  const { authenticatedAxios } = useAuth(); // Usar authenticatedAxios do AuthContext
 
   const form = useForm<WorkFormValues>({
     resolver: zodResolver(workFormSchema),
@@ -71,9 +73,7 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
   const { data: workData, isLoading: isLoadingWork } = useQuery<WorkFormValues>({
     queryKey: ['adminWork', id],
     queryFn: async () => {
-      const response = await axios.get(`${API_URL}/admin/works/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.get(`${API_URL}/admin/works/${id}`);
       const data = response.data;
       // Transform tags array to comma-separated string for the form field
       return {
@@ -81,7 +81,7 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
         tags: data.tags ? data.tags.join(', ') : '',
       };
     },
-    enabled: isEditing && !!token,
+    enabled: isEditing, // Não precisa mais de !!token
   });
 
   useEffect(() => {
@@ -92,9 +92,7 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
 
   const createWorkMutation = useMutation({
     mutationFn: async (newWork: WorkFormValues) => {
-      const response = await axios.post(`${API_URL}/admin/works`, newWork, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.post(`${API_URL}/admin/works`, newWork);
       return response.data;
     },
     onSuccess: () => {
@@ -115,9 +113,7 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
 
   const updateWorkMutation = useMutation({
     mutationFn: async (updatedWork: WorkFormValues) => {
-      const response = await axios.put(`${API_URL}/admin/works/${id}`, updatedWork, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.put(`${API_URL}/admin/works/${id}`, updatedWork);
       return response.data;
     },
     onSuccess: () => {
@@ -141,19 +137,32 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i]);
-    }
+    const uploadPromises = Array.from(files).map(async (file) => {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+      const filePath = `public/${fileName}`; // Pasta 'public' no bucket do Supabase Storage
+
+      const { data, error } = await supabase.storage
+        .from('portfolio-images') // Nome do seu bucket no Supabase Storage
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      // Obter a URL pública da imagem
+      const { data: publicUrlData } = supabase.storage
+        .from('portfolio-images')
+        .getPublicUrl(filePath);
+
+      return publicUrlData.publicUrl;
+    });
 
     try {
-      const response = await axios.post(`${API_URL}/admin/uploads`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const uploadedUrls: string[] = response.data.urls;
+      const uploadedUrls = await Promise.all(uploadPromises);
 
       if (isCover) {
         form.setValue('coverImageUrl', uploadedUrls[0], { shouldValidate: true });
@@ -172,7 +181,7 @@ export const useWorkForm = ({ token }: UseWorkFormProps) => {
       }
     } catch (error: any) {
       console.error('Erro ao fazer upload:', error);
-      showError(error.response?.data?.message || 'Erro ao fazer upload das imagens.');
+      showError(error.message || 'Erro ao fazer upload das imagens.');
     }
   };
 

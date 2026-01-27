@@ -23,7 +23,7 @@ interface Lead {
 }
 
 const AdminLeadsPage = () => {
-  const { token } = useAuth();
+  const { authenticatedAxios } = useAuth(); // Usar authenticatedAxios
   const queryClient = useQueryClient();
 
   const [startDate, setStartDate] = useState<string>('');
@@ -41,19 +41,15 @@ const AdminLeadsPage = () => {
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
 
-      const response = await axios.get(`${API_URL}/admin/leads?${params.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.get(`${API_URL}/admin/leads?${params.toString()}`); // Usar authenticatedAxios
       return response.data;
     },
-    enabled: !!token,
+    enabled: true, // Não precisa mais de !!token
   });
 
   const deleteLeadMutation = useMutation({
     mutationFn: async (id: string) => {
-      await axios.delete(`${API_URL}/admin/leads/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await authenticatedAxios.delete(`${API_URL}/admin/leads/${id}`); // Usar authenticatedAxios
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminLeads'] });
@@ -71,9 +67,7 @@ const AdminLeadsPage = () => {
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
 
-      const response = await axios.get(`${API_URL}/admin/leads?${params.toString()}&limit=9999`, { // Fetch all for export
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authenticatedAxios.get(`${API_URL}/admin/leads?${params.toString()}&limit=9999`); // Usar authenticatedAxios
       const leadsToExport: Lead[] = response.data.data;
 
       if (leadsToExport.length === 0) {

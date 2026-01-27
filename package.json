@@ -10,16 +10,17 @@
     "start-backend": "pnpm --filter backend dev"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.93.1",
     "embla-carousel-react": "^8.6.0",
     "slugify": "^1.6.6",
     "three": "^0.182.0"
   },
   "devDependencies": {
-    "vite": "^5.3.4",
     "@vitejs/plugin-react": "^4.3.1",
-    "tailwindcss": "^3.4.11",
     "autoprefixer": "^10.4.20",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.11",
+    "vite": "^5.3.4"
   }
 }

@@ -15,19 +15,15 @@ interface AdminStats {
 }
 
 const AdminDashboardPage = () => {
-  const { token } = useAuth();
+  const { authenticatedAxios } = useAuth(); // Usar authenticatedAxios
 
   const { data: stats, isLoading, isError, error } = useQuery<AdminStats>({
     queryKey: ['adminStats'],
     queryFn: async () => {
-      const response = await axios.get(`${API_URL}/admin/stats`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await authenticatedAxios.get(`${API_URL}/admin/stats`); // Usar authenticatedAxios
       return response.data;
     },
-    enabled: !!token,
+    enabled: true, // Não precisa mais de !!token, pois authenticatedAxios já gerencia isso
   });
 
   if (isLoading) {
