@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { showSuccess, showError } from '@/utils/toast';
 import { Mail, Phone, User } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card'; // Importar CardContent
+import { Card, CardContent } from '@/components/ui/card';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -50,7 +50,7 @@ const ContactPage = () => {
       </p>
 
       <Card className="max-w-3xl mx-auto p-8 rounded-2xl shadow-xl bg-purple-50 border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
-        <CardContent> {/* <--- CardContent agora envolve o Form */}
+        <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -142,7 +142,7 @@ const ContactPage = () => {
               </Button>
             </form>
           </Form>
-        </CardContent> {/* <--- Tag de fechamento movida para aqui */}
+        </CardContent>
       </Card>
     </div>
   );
