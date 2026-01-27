@@ -11,7 +11,7 @@ import { Loader2, PlusCircle, Edit, Trash2, Search } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { showSuccess, showError } from '@/utils/toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { WorkCategory, WorkType, WorkStatus } from '@prisma/client';
+import { WorkCategory, WorkType, WorkStatus } from '@/types/work'; // Corrected import path
 
 const API_URL = import.meta.env.VITE_API_URL;
 

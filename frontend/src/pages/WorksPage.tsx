@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui/pagination';
 import { Loader2, Search } from 'lucide-react';
-import { WorkCategory, WorkType } from '@prisma/client'; // Assuming these enums are available from shared types or backend
+import { WorkCategory, WorkType } from '@/types/work'; // Corrected import path
 
 const API_URL = import.meta.env.VITE_API_URL;
 

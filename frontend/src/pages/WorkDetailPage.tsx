@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card } from '@/components/ui/card';
-import { WorkCategory, WorkType } from '@prisma/client';
+import { WorkCategory, WorkType } from '@/types/work'; // Corrected import path
 
 const API_URL = import.meta.env.VITE_API_URL;
 
