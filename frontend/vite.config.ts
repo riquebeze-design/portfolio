@@ -12,7 +12,7 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // "react/jsx-runtime": "react/jsx-runtime.js", // Removido: pode estar interferindo
+      "framer-motion": path.resolve(__dirname, "./node_modules/framer-motion"), // Adiciona alias explícito para framer-motion
     },
   },
   optimizeDeps: {
