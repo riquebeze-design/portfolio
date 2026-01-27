@@ -44,9 +44,6 @@ const PublicNavbar: React.FC<PublicNavbarProps> = ({
               {resumeLabel}
             </Button>
           )}
-          <Button onClick={() => navigate('/admin/login')} className="glass-button px-4 py-2 rounded-full text-foreground text-sm font-medium inter-font">
-            <LogIn className="mr-2 h-4 w-4" /> Admin Login
-          </Button>
         </div>
       </div>
     </nav>
