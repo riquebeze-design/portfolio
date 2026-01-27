@@ -141,7 +141,7 @@ const ContactPage = () => {
                 {form.formState.isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
               </Button>
             </form>
-          </Form>
+          </Form> {/* <-- A tag </Form> está aqui, garantindo o fechamento correto. */}
         </CardContent>
       </Card>
     </div>
