@@ -10,29 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum WorkCategory {
-  BRANDING
-  WEBSITE
-  SYSTEM
-  ADVERTISING
-  THREED
-  OTHER
-}
-
-enum WorkType {
-  DESIGN
-  DEVELOPMENT
-  MARKETING
-  ANIMATION
-  PHOTOGRAPHY
-  OTHER
-}
-
-enum WorkStatus {
-  DRAFT
-  PUBLISHED
-}
-
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -42,21 +19,21 @@ model User {
 }
 
 model Work {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
-  slug        String      @unique
-  category    WorkCategory
-  type        WorkType
+  slug        String   @unique
+  category    String // Alterado de WorkCategory para String
+  type        String   // Alterado de WorkType para String
   year        Int
   client      String?
   description String
-  tags        String      @db.Text // Stored as JSON string
-  featured    Boolean     @default(false)
-  status      WorkStatus  @default(DRAFT)
+  tags        String   @db.Text // Stored as JSON string
+  featured    Boolean  @default(false)
+  status      String   @default("DRAFT") // Alterado de WorkStatus para String, e default para string literal
   coverImageUrl String
   externalUrl String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   images      WorkImage[]
 }
 
