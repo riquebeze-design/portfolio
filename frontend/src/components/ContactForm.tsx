@@ -46,7 +46,7 @@ const ContactForm = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <Card className="max-w-3xl mx-auto p-8 rounded-2xl shadow-xl border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
+      <Card className="max-w-3xl mx-auto p-8 rounded-2xl shadow-xl bg-purple-50 border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
         <CardHeader className="text-center mb-8">
           <CardTitle className="text-4xl font-extrabold text-purple-800 dark:text-purple-300 mb-2">Fale Comigo</CardTitle>
           <p className="text-lg text-gray-700 dark:text-gray-400">
