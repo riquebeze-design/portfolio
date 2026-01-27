@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseFormReturn, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove, UseFieldArrayUpdate } from 'react-hook-form';
+import { UseFormReturn, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
@@ -35,9 +35,9 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
               className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
             />
             <label htmlFor="cover-image-upload" className="cursor-pointer">
-              <Button asChild variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
-                <span><UploadCloud className="mr-2 h-4 w-4" /> Upload</span>
-              </label>
+              <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+                <UploadCloud className="mr-2 h-4 w-4" /> Upload
+              </Button>
               <input
                 id="cover-image-upload"
                 type="file"
@@ -45,7 +45,7 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
                 className="hidden"
                 onChange={(e) => handleFileUpload(e, true)}
               />
-            </Button>
+            </label>
           </div>
         </FormControl>
         {form.getValues('coverImageUrl') && (
@@ -78,9 +78,9 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
                 className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
               />
               <label htmlFor={`gallery-image-upload-${index}`} className="cursor-pointer">
-                <Button asChild variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
-                  <span><UploadCloud className="mr-2 h-4 w-4" /> Upload</span>
-                </label>
+                <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+                  <UploadCloud className="mr-2 h-4 w-4" /> Upload
+                </Button>
                 <input
                   id={`gallery-image-upload-${index}`}
                   type="file"
@@ -88,7 +88,7 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
                   className="hidden"
                   onChange={(e) => handleFileUpload(e, false, index)}
                 />
-              </Button>
+              </label>
               <Button
                 type="button"
                 variant="destructive"
