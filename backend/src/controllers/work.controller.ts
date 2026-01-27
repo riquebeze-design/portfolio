@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
+import { PrismaClient } from '@prisma/client';
+import { WorkCategory, WorkType, WorkStatus } from '../../../frontend/src/types/work'; // Importar enums do frontend
 import { Work } from '../types/prisma.d'; // Importar a interface Work
 
 const prisma = new PrismaClient();
@@ -10,7 +11,7 @@ export const getWorks = async (req: Request, res: Response) => {
   const take = parseInt(limit as string);
 
   const where: any = {
-    status: WorkStatus.PUBLISHED, // Usando enum do Prisma
+    status: WorkStatus.PUBLISHED, // Usando enum do frontend
   };
 
   if (search) {
@@ -21,11 +22,11 @@ export const getWorks = async (req: Request, res: Response) => {
   }
 
   if (category) {
-    where.category = category as WorkCategory; // Usando enum do Prisma
+    where.category = category as WorkCategory; // Usando enum do frontend
   }
 
   if (type) {
-    where.type = type as WorkType; // Usando enum do Prisma
+    where.type = type as WorkType; // Usando enum do frontend
   }
 
   try {
@@ -63,7 +64,7 @@ export const getWorkBySlug = async (req: Request, res: Response) => {
 
   try {
     const work = await prisma.work.findUnique({
-      where: { slug, status: WorkStatus.PUBLISHED }, // Usando enum do Prisma
+      where: { slug, status: WorkStatus.PUBLISHED }, // Usando enum do frontend
       include: { images: { orderBy: { order: 'asc' } } },
     });
 

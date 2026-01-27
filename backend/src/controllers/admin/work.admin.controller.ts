@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
+import { PrismaClient } from '@prisma/client';
 import slugify from 'slugify';
+import { WorkCategory, WorkType, WorkStatus } from '../../../frontend/src/types/work'; // Importar enums do frontend
 import { Work } from '../../types/prisma.d'; // Importar a interface Work
 
 const prisma = new PrismaClient();
@@ -20,15 +21,15 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
   }
 
   if (category) {
-    where.category = category as WorkCategory; // Usando enum do Prisma
+    where.category = category as WorkCategory; // Usando enum do frontend
   }
 
   if (type) {
-    where.type = type as WorkType; // Usando enum do Prisma
+    where.type = type as WorkType; // Usando enum do frontend
   }
 
   if (status) {
-    where.status = status as WorkStatus; // Usando enum do Prisma
+    where.status = status as WorkStatus; // Usando enum do frontend
   }
 
   try {
@@ -102,14 +103,14 @@ export const createWork = async (req: Request, res: Response) => {
       data: {
         title,
         slug: generatedSlug,
-        category: category as WorkCategory, // Usando enum do Prisma
-        type: type as WorkType,             // Usando enum do Prisma
+        category: category as string, // Usando string
+        type: type as string,             // Usando string
         year,
         client,
         description,
         tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
-        status: status as WorkStatus,       // Usando enum do Prisma
+        status: status as string,       // Usando string
         coverImageUrl,
         externalUrl,
         images: {
@@ -179,14 +180,14 @@ export const updateWork = async (req: Request, res: Response) => {
       data: {
         title,
         slug: updatedSlug,
-        category: category as WorkCategory, // Usando enum do Prisma
-        type: type as WorkType,             // Usando enum do Prisma
+        category: category as string, // Usando string
+        type: type as string,             // Usando string
         year,
         client,
         description,
         tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
-        status: status as WorkStatus,       // Usando enum do Prisma
+        status: status as string,       // Usando string
         coverImageUrl,
         externalUrl,
         images: {

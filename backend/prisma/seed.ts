@@ -1,20 +1,15 @@
-import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
+import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import slugify from 'slugify';
 import path from 'path';
 import fs from 'fs';
+import { WorkCategory, WorkType, WorkStatus } from '../../frontend/src/types/work'; // Importar enums do frontend
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const prisma = new PrismaClient();
 
-// A função seedAdminUser não é mais necessária, pois o Supabase Auth gerencia usuários.
-// export async function seedAdminUser() { ... }
-
 async function main() {
-  // Não precisamos mais chamar seedAdminUser aqui.
-  // await seedAdminUser();
-
   // Cria o diretório de uploads se não existir (ainda para placeholders, mas o upload real será no Supabase Storage)
   const uploadsDir = path.join(__dirname, '..', 'uploads');
   if (!fs.existsSync(uploadsDir)) {
@@ -52,14 +47,14 @@ async function main() {
     create: {
       title: 'Website Redesign for Tech Startup',
       slug: work1Slug,
-      category: WorkCategory.WEBSITE, // Usando enum nativo
-      type: WorkType.DEVELOPMENT,     // Usando enum nativo
+      category: WorkCategory.WEBSITE, // Usando enum do frontend
+      type: WorkType.DEVELOPMENT,     // Usando enum do frontend
       year: 2023,
       client: 'Innovate Solutions',
       description: 'A complete overhaul of a tech startup\'s website, focusing on modern UI/UX and improved performance. Implemented with React and Tailwind CSS.',
       tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']), // Stringify tags array
       featured: true,
-      status: WorkStatus.PUBLISHED,   // Usando enum nativo
+      status: WorkStatus.PUBLISHED,   // Usando enum do frontend
       coverImageUrl: placeholderImage1,
       externalUrl: 'https://example.com/tech-startup',
       images: {
@@ -80,14 +75,14 @@ async function main() {
     create: {
       title: 'Branding for Coffee Shop',
       slug: work2Slug,
-      category: WorkCategory.BRANDING, // Usando enum nativo
-      type: WorkType.DESIGN,          // Usando enum nativo
+      category: WorkCategory.BRANDING, // Usando enum do frontend
+      type: WorkType.DESIGN,          // Usando enum do frontend
       year: 2022,
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
       tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
       featured: false,
-      status: WorkStatus.PUBLISHED,   // Usando enum nativo
+      status: WorkStatus.PUBLISHED,   // Usando enum do frontend
       coverImageUrl: placeholderImage2,
       externalUrl: null,
       images: {

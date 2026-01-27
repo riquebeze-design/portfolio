@@ -10,44 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum WorkCategory {
-  BRANDING
-  WEBSITE
-  SYSTEM
-  ADVERTISING
-  THREED
-  OTHER
-  DESIGN      // Nova categoria
-  SAAS        // Nova categoria
-  PHOTOGRAPHY // Nova categoria
-}
-
-enum WorkType {
-  DESIGN
-  DEVELOPMENT
-  MARKETING
-  ANIMATION
-  PHOTOGRAPHY
-  OTHER
-}
-
-enum WorkStatus {
-  DRAFT
-  PUBLISHED
-}
+// Enums WorkCategory, WorkType e WorkStatus foram removidos daqui
+// e serão gerenciados no nível da aplicação (frontend/src/types/work.ts)
+// para compatibilidade com SQLite.
 
 model Work {
   id            String      @id @default(uuid())
   title         String
   slug          String      @unique
-  category      WorkCategory
-  type          WorkType
+  category      String      // Alterado para String
+  type          String      // Alterado para String
   year          Int
   client        String?
   description   String
   tags          String      @db.Text // Stored as JSON string
   featured      Boolean     @default(false)
-  status        WorkStatus  @default(DRAFT)
+  status        String      @default("DRAFT") // Alterado para String, default como string literal
   coverImageUrl String
   externalUrl   String?
   createdAt     DateTime    @default(now())
@@ -74,12 +52,3 @@ model Lead {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-// O modelo User foi removido, pois a autenticação é gerenciada pelo Supabase.
-// model User {
-//   id        String   @id @default(uuid())
-//   email     String   @unique
-//   password  String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
