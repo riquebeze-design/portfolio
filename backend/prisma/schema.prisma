@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Using SQLite for initial setup, easily migratable to PostgreSQL
+  url      = env("DATABASE_URL")
+}
+
+enum WorkStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum WorkCategory {
+  BRANDING
+  WEBSITE
+  SYSTEM
+  ADVERTISING
+  THREED
+  OTHER
+}
+
+enum WorkType {
+  DESIGN
+  DEVELOPMENT
+  MARKETING
+  ANIMATION
+  PHOTOGRAPHY
+  OTHER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Work {
+  id            String       @id @default(uuid())
+  title         String
+  slug          String       @unique
+  category      WorkCategory
+  type          WorkType
+  year          Int
+  client        String?
+  description   String
+  tags          String[]     @default([]) @db.Json
+  featured      Boolean      @default(false)
+  status        WorkStatus   @default(DRAFT)
+  coverImageUrl String
+  externalUrl   String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  images        WorkImage[]
+}
+
+model WorkImage {
+  id      String @id @default(uuid())
+  workId  String
+  url     String
+  order   Int    @default(0)
+  work    Work   @relation(fields: [workId], references: [id], onDelete: Cascade)
+
+  @@unique([workId, order])
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  createdAt DateTime @default(now())
+}
