@@ -2,7 +2,7 @@ import React from 'react';
 import { PortfolioPage, PortfolioPageProps } from "@/components/ui/starfall-portfolio-landing";
 import { useNavigate } from 'react-router-dom';
 import { Case } from '@/components/ui/cases-with-infinite-scroll';
-import ProfileCard from '@/components/ProfileCard'; // Importando o NOVO componente ProfileCard
+import ContactForm from '@/components/ContactForm'; // Importando o NOVO componente ContactForm
 
 const Index = () => {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Index = () => {
     <>
       <PortfolioPage {...customPortfolioData} />
       <Case />
-      <ProfileCard /> {/* O novo componente ProfileCard é colocado aqui */}
+      <ContactForm /> {/* O novo componente ContactForm é colocado aqui */}
     </>
   );
 };
