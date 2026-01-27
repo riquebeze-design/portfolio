@@ -2,10 +2,6 @@
   "name": "whispering-koala-hop-root",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
     "install-all": "npm install --workspaces",
     "build-all": "npm run build --workspace=frontend && npm run build --workspace=backend",
