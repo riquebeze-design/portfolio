@@ -4,7 +4,7 @@
   "description": "Portfolio Backend API",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "prisma generate && nodemon src/index.ts",
     "build": "prisma generate && tsc",
     "start": "node dist/index.js",
     "prisma:migrate": "prisma migrate dev --name initial_setup",
