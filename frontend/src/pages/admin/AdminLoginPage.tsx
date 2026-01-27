@@ -42,7 +42,7 @@ const AdminLoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4"> {/* Removido o gradiente de fundo */}
+    <div className="flex items-center justify-center min-h-screen p-4 bg-black"> {/* Adicionado bg-black aqui */}
       <Card className="w-full max-w-md p-6 rounded-2xl shadow-xl border-2 border-purple-100 dark:border-purple-900 dark:bg-card">
         <CardHeader className="text-center">
           <CardTitle className="text-4xl font-extrabold text-purple-800 dark:text-purple-300 mb-2">Login Admin</CardTitle>
