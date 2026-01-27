@@ -10,6 +10,9 @@ export enum WorkCategory {
   ADVERTISING = 'ADVERTISING',
   THREED = 'THREED',
   OTHER = 'OTHER',
+  DESIGN = 'DESIGN', // Nova categoria
+  SAAS = 'SAAS',     // Nova categoria
+  PHOTOGRAPHY = 'PHOTOGRAPHY', // Nova categoria
 }
 
 export enum WorkType {

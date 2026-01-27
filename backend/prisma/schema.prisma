@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // Alterado para postgresql
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -17,6 +17,9 @@ enum WorkCategory {
   ADVERTISING
   THREED
   OTHER
+  DESIGN      // Nova categoria
+  SAAS        // Nova categoria
+  PHOTOGRAPHY // Nova categoria
 }
 
 enum WorkType {
@@ -33,35 +36,33 @@ enum WorkStatus {
   PUBLISHED
 }
 
-// O modelo User será removido, pois a autenticação será gerenciada pelo Supabase.
-// Se você precisar de perfis de usuário adicionais, eles serão criados em uma tabela separada
-// e vinculados ao ID do usuário do Supabase.
-
 model Work {
-  id          String      @id @default(uuid())
-  title       String
-  slug        String      @unique
-  category    WorkCategory // Usando enum nativo
-  type        WorkType     // Usando enum nativo
-  year        Int
-  client      String?
-  description String
-  tags        String      @db.Text // Ainda armazenado como JSON string para flexibilidade
-  featured    Boolean     @default(false)
-  status      WorkStatus  @default(DRAFT) // Usando enum nativo
+  id            String      @id @default(uuid())
+  title         String
+  slug          String      @unique
+  category      WorkCategory
+  type          WorkType
+  year          Int
+  client        String?
+  description   String
+  tags          String      @db.Text // Stored as JSON string
+  featured      Boolean     @default(false)
+  status        WorkStatus  @default(DRAFT)
   coverImageUrl String
-  externalUrl String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  images      WorkImage[]
+  externalUrl   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  images        WorkImage[]
 }
 
 model WorkImage {
-  id      String @id @default(uuid())
-  url     String
-  order   Int    @default(0)
-  work    Work   @relation(fields: [workId], references: [id], onDelete: Cascade)
-  workId  String
+  id     String @id @default(uuid())
+  url    String
+  order  Int    @default(0)
+  workId String
+  work   Work   @relation(fields: [workId], references: [id], onDelete: Cascade)
+
+  @@unique([workId, order])
 }
 
 model Lead {
@@ -73,3 +74,12 @@ model Lead {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// O modelo User foi removido, pois a autenticação é gerenciada pelo Supabase.
+// model User {
+//   id        String   @id @default(uuid())
+//   email     String   @unique
+//   password  String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
