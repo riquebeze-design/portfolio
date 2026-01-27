@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
+    "dev": "concurrently \"pnpm --filter vite_react_shadcn_ts dev\" \"pnpm --filter backend dev\"",
     "install-all": "pnpm install",
-    "build-all": "pnpm --filter frontend build && pnpm --filter backend build",
-    "start-frontend": "pnpm --filter frontend dev",
+    "build-all": "pnpm --filter vite_react_shadcn_ts build && pnpm --filter backend build",
+    "start-frontend": "pnpm --filter vite_react_shadcn_ts dev",
     "start-backend": "pnpm --filter backend dev"
   },
   "dependencies": {
