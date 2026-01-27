@@ -12,7 +12,7 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "react/jsx-runtime": "react/jsx-runtime.js", // Adiciona alias explícito
+      // "react/jsx-runtime": "react/jsx-runtime.js", // Removido: pode estar interferindo
     },
   },
   optimizeDeps: {
