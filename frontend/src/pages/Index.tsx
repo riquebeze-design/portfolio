@@ -2,6 +2,7 @@ import React from 'react';
 import { PortfolioPage, PortfolioPageProps } from "@/components/ui/starfall-portfolio-landing";
 import { useNavigate } from 'react-router-dom';
 import { Case } from '@/components/ui/cases-with-infinite-scroll'; // Import the new Case component
+import { ProfileCard } from '@/components/ui/profile-card'; // Import the new ProfileCard component
 
 const Index = () => {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const Index = () => {
     <>
       <PortfolioPage {...customPortfolioData} />
       <Case /> {/* The new Case component is placed here */}
+      <ProfileCard /> {/* The new ProfileCard component is placed here */}
     </>
   );
 };
