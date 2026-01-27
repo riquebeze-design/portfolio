@@ -39,20 +39,20 @@ export async function seedAdminUser() {
 }
 
 async function main() {
-  await seedAdminUser(); // Ensure admin user is seeded first
+  await seedAdminUser(); // Garante que o usuário admin seja semeado primeiro
 
-  // Create uploads directory if it doesn't exist
+  // Cria o diretório de uploads se não existir
   const uploadsDir = path.join(__dirname, '..', 'uploads');
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
 
-  // Placeholder images (you might want to copy actual images here)
+  // Imagens de placeholder (você pode querer copiar imagens reais aqui)
   const placeholderImage1 = '/uploads/placeholder-work1.jpg';
   const placeholderImage2 = '/uploads/placeholder-work2.jpg';
   const placeholderImage3 = '/uploads/placeholder-work3.jpg';
 
-  // Create dummy placeholder image files if they don't exist
+  // Cria arquivos de imagem dummy de placeholder se não existirem
   const dummyImagePath1 = path.join(uploadsDir, 'placeholder-work1.jpg');
   const dummyImagePath2 = path.join(uploadsDir, 'placeholder-work2.jpg');
   const dummyImagePath3 = path.join(uploadsDir, 'placeholder-work3.jpg');
@@ -68,7 +68,7 @@ async function main() {
   }
 
 
-  // Seed example works
+  // Semeia trabalhos de exemplo
   const work1Slug = slugify('Website Redesign for Tech Startup', { lower: true, strict: true });
   const work2Slug = slugify('Branding for Coffee Shop', { lower: true, strict: true });
 
@@ -78,14 +78,14 @@ async function main() {
     create: {
       title: 'Website Redesign for Tech Startup',
       slug: work1Slug,
-      category: 'WEBSITE',
-      type: 'DEVELOPMENT',
+      category: 'WEBSITE', // Use string literal
+      type: 'DEVELOPMENT', // Use string literal
       year: 2023,
       client: 'Innovate Solutions',
       description: 'A complete overhaul of a tech startup\'s website, focusing on modern UI/UX and improved performance. Implemented with React and Tailwind CSS.',
-      tags: ['React', 'Tailwind CSS', 'UI/UX', 'Web Development'],
+      tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']), // Stringify tags array
       featured: true,
-      status: 'PUBLISHED',
+      status: 'PUBLISHED', // Use string literal
       coverImageUrl: placeholderImage1,
       externalUrl: 'https://example.com/tech-startup',
       images: {
@@ -106,14 +106,14 @@ async function main() {
     create: {
       title: 'Branding for Coffee Shop',
       slug: work2Slug,
-      category: 'BRANDING',
-      type: 'DESIGN',
+      category: 'BRANDING', // Use string literal
+      type: 'DESIGN', // Use string literal
       year: 2022,
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
-      tags: ['Branding', 'Logo Design', 'Graphic Design', 'Marketing'],
+      tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
       featured: false,
-      status: 'PUBLISHED',
+      status: 'PUBLISHED', // Use string literal
       coverImageUrl: placeholderImage2,
       externalUrl: null,
       images: {

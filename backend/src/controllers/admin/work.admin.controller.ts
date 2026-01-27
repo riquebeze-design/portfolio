@@ -14,7 +14,8 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
   if (search) {
     where.OR = [
       { title: { contains: search as string, mode: 'insensitive' } },
-      { tags: { has: search as string } },
+      // Para SQLite, a busca dentro de uma string JSON requer 'contains' na própria string
+      { tags: { contains: search as string, mode: 'insensitive' } },
     ];
   }
 
@@ -41,8 +42,14 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
 
     const totalWorks = await prisma.work.count({ where });
 
+    // Mapeia os trabalhos para analisar as tags de string JSON para array
+    const formattedWorks = works.map(work => ({
+      ...work,
+      tags: JSON.parse(work.tags), // Analisa as tags de volta para array
+    }));
+
     res.status(200).json({
-      data: works,
+      data: formattedWorks,
       total: totalWorks,
       page: parseInt(page as string),
       limit: parseInt(limit as string),
@@ -67,7 +74,13 @@ export const getWorkByIdAdmin = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Work not found' });
     }
 
-    res.status(200).json(work);
+    // Analisa as tags de string JSON para array
+    const formattedWork = {
+      ...work,
+      tags: JSON.parse(work.tags),
+    };
+
+    res.status(200).json(formattedWork);
   } catch (error) {
     console.error('Error fetching work by ID for admin:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -94,7 +107,7 @@ export const createWork = async (req: Request, res: Response) => {
         year,
         client,
         description,
-        tags,
+        tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
         status,
         coverImageUrl,
@@ -105,7 +118,12 @@ export const createWork = async (req: Request, res: Response) => {
       },
       include: { images: true },
     });
-    res.status(201).json(work);
+    // Analisa as tags de volta para a resposta
+    const formattedWork = {
+      ...work,
+      tags: JSON.parse(work.tags),
+    };
+    res.status(201).json(formattedWork);
   } catch (error) {
     console.error('Error creating work:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -131,19 +149,18 @@ export const updateWork = async (req: Request, res: Response) => {
       }
       updatedSlug = newGeneratedSlug;
     } else if (title && title !== currentWork.title && !slug) {
-      // If title changes and slug is not explicitly provided, regenerate slug from new title
+      // Se o título mudar e o slug não for explicitamente fornecido, regenere o slug a partir do novo título
       const newGeneratedSlug = slugify(title, { lower: true, strict: true });
       const existingWorkWithNewSlug = await prisma.work.findUnique({ where: { slug: newGeneratedSlug } });
       if (existingWorkWithNewSlug && existingWorkWithNewSlug.id !== id) {
-        // If the new slug from the new title already exists for another work, append a unique identifier
+        // Se o novo slug do novo título já existir para outro trabalho, anexe um identificador único
         updatedSlug = `${newGeneratedSlug}-${Date.now()}`;
       } else {
         updatedSlug = newGeneratedSlug;
       }
     }
 
-
-    // Delete existing images not present in the update
+    // Excluir imagens existentes não presentes na atualização
     const existingImageUrls = currentWork.images.map(img => img.url);
     const updatedImageUrls = images ? images.map((img: { url: string }) => img.url) : [];
     const imagesToDelete = existingImageUrls.filter(url => !updatedImageUrls.includes(url));
@@ -167,15 +184,15 @@ export const updateWork = async (req: Request, res: Response) => {
         year,
         client,
         description,
-        tags,
+        tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
         status,
         coverImageUrl,
         externalUrl,
         images: {
-          // Update existing images and create new ones
+          // Atualizar imagens existentes e criar novas
           upsert: images?.map((image: { id?: string; url: string; order: number }) => ({
-            where: { id: image.id || 'new-image-id' }, // Use a dummy ID for new images
+            where: { id: image.id || 'new-image-id' }, // Use um ID fictício para novas imagens
             create: { url: image.url, order: image.order },
             update: { url: image.url, order: image.order },
           })) || [],
@@ -183,7 +200,12 @@ export const updateWork = async (req: Request, res: Response) => {
       },
       include: { images: true },
     });
-    res.status(200).json(work);
+    // Analisa as tags de volta para a resposta
+    const formattedWork = {
+      ...work,
+      tags: JSON.parse(work.tags),
+    };
+    res.status(200).json(formattedWork);
   } catch (error) {
     console.error('Error updating work:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -194,6 +216,10 @@ export const deleteWork = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
+    // Excluir imagens associadas primeiro
+    await prisma.workImage.deleteMany({
+      where: { workId: id },
+    });
     await prisma.work.delete({ where: { id } });
     res.status(204).send();
   } catch (error) {

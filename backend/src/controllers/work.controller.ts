@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient, WorkStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -9,13 +9,14 @@ export const getWorks = async (req: Request, res: Response) => {
   const take = parseInt(limit as string);
 
   const where: any = {
-    status: WorkStatus.PUBLISHED,
+    status: "PUBLISHED", // Use string literal
   };
 
   if (search) {
     where.OR = [
       { title: { contains: search as string, mode: 'insensitive' } },
-      { tags: { has: search as string } },
+      // Para SQLite, a busca dentro de uma string JSON requer 'contains' na própria string
+      { tags: { contains: search as string, mode: 'insensitive' } },
     ];
   }
 
@@ -38,8 +39,14 @@ export const getWorks = async (req: Request, res: Response) => {
 
     const totalWorks = await prisma.work.count({ where });
 
+    // Mapeia os trabalhos para analisar as tags de string JSON para array
+    const formattedWorks = works.map(work => ({
+      ...work,
+      tags: JSON.parse(work.tags), // Analisa as tags de volta para array
+    }));
+
     res.status(200).json({
-      data: works,
+      data: formattedWorks,
       total: totalWorks,
       page: parseInt(page as string),
       limit: parseInt(limit as string),
@@ -56,7 +63,7 @@ export const getWorkBySlug = async (req: Request, res: Response) => {
 
   try {
     const work = await prisma.work.findUnique({
-      where: { slug, status: WorkStatus.PUBLISHED },
+      where: { slug, status: "PUBLISHED" }, // Use string literal
       include: { images: { orderBy: { order: 'asc' } } },
     });
 
@@ -64,7 +71,13 @@ export const getWorkBySlug = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Work not found or not published' });
     }
 
-    res.status(200).json(work);
+    // Analisa as tags de string JSON para array
+    const formattedWork = {
+      ...work,
+      tags: JSON.parse(work.tags),
+    };
+
+    res.status(200).json(formattedWork);
   } catch (error) {
     console.error('Error fetching work by slug:', error);
     res.status(500).json({ message: 'Internal server error' });
