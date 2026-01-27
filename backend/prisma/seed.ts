@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import slugify from 'slugify';
 import path from 'path';
 import fs from 'fs';
-import { WorkCategory, WorkType, WorkStatus } from '../../frontend/src/types/work'; // Importar enums do frontend
+import { WorkCategory, WorkType, WorkStatus } from '../src/types/shared'; // Importar enums do backend
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -47,14 +47,14 @@ async function main() {
     create: {
       title: 'Website Redesign for Tech Startup',
       slug: work1Slug,
-      category: WorkCategory.WEBSITE, // Usando enum do frontend
-      type: WorkType.DEVELOPMENT,     // Usando enum do frontend
+      category: WorkCategory.WEBSITE, // Usando enum do backend
+      type: WorkType.DEVELOPMENT,     // Usando enum do backend
       year: 2023,
       client: 'Innovate Solutions',
       description: 'A complete overhaul of a tech startup\'s website, focusing on modern UI/UX and improved performance. Implemented with React and Tailwind CSS.',
       tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']), // Stringify tags array
       featured: true,
-      status: WorkStatus.PUBLISHED,   // Usando enum do frontend
+      status: WorkStatus.PUBLISHED,   // Usando enum do backend
       coverImageUrl: placeholderImage1,
       externalUrl: 'https://example.com/tech-startup',
       images: {
@@ -75,14 +75,14 @@ async function main() {
     create: {
       title: 'Branding for Coffee Shop',
       slug: work2Slug,
-      category: WorkCategory.BRANDING, // Usando enum do frontend
-      type: WorkType.DESIGN,          // Usando enum do frontend
+      category: WorkCategory.BRANDING, // Usando enum do backend
+      type: WorkType.DESIGN,          // Usando enum do backend
       year: 2022,
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
       tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
       featured: false,
-      status: WorkStatus.PUBLISHED,   // Usando enum do frontend
+      status: WorkStatus.PUBLISHED,   // Usando enum do backend
       coverImageUrl: placeholderImage2,
       externalUrl: null,
       images: {

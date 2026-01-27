@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { WorkCategory, WorkType, WorkStatus } from '../../../frontend/src/types/work'; // Importar enums do frontend
+import { WorkCategory, WorkType, WorkStatus } from '../types/shared'; // Importar enums do backend
 
 const workBaseSchema = z.object({
   title: z.string().min(1, 'Title is required'),
