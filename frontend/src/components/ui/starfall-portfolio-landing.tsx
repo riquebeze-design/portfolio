@@ -15,6 +15,7 @@ export interface PortfolioPageProps {
   projects?: Project[];
   stats?: Stat[];
   showAnimatedBackground?: boolean;
+  hideNavbar?: boolean; // Nova propriedade
 }
 
 // --- INTERNAL ANIMATED BACKGROUND COMPONENT ---
@@ -82,27 +83,30 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({
   projects = defaultData.projects,
   stats = defaultData.stats,
   showAnimatedBackground = true,
+  hideNavbar = false, // Valor padrão para false
 }) => {
   return (
     <div className="bg-background text-foreground geist-font">
       {showAnimatedBackground && <AuroraBackground />}
       <div className="relative">
-        <nav className="w-full px-6 py-4">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-lg bg-border backdrop-blur-md border border-border flex items-center justify-center">
-                        <span className="geist-font text-sm font-bold text-foreground">{logo.initials}</span>
-                    </div>
-                    <span className="geist-font text-lg font-medium text-foreground">{logo.name}</span>
-                </div>
-                <div className="hidden md:flex items-center space-x-8">
-                    {navLinks.map(link => (
-                        <a key={link.label} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors inter-font text-sm">{link.label}</a>
-                    ))}
-                </div>
-                <button onClick={resume.onClick} className="glass-button px-4 py-2 rounded-lg text-foreground text-sm font-medium inter-font">{resume.label}</button>
-            </div>
-        </nav>
+        {!hideNavbar && ( // Renderiza a navbar condicionalmente
+          <nav className="w-full px-6 py-4">
+              <div className="max-w-7xl mx-auto flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 rounded-lg bg-border backdrop-blur-md border border-border flex items-center justify-center">
+                          <span className="geist-font text-sm font-bold text-foreground">{logo.initials}</span>
+                      </div>
+                      <span className="geist-font text-lg font-medium text-foreground">{logo.name}</span>
+                  </div>
+                  <div className="hidden md:flex items-center space-x-8">
+                      {navLinks.map(link => (
+                          <a key={link.label} href={link.href} className="text-muted-foreground hover:text-foreground transition-colors inter-font text-sm">{link.label}</a>
+                      ))}
+                  </div>
+                  <button onClick={resume.onClick} className="glass-button px-4 py-2 rounded-lg text-foreground text-sm font-medium inter-font">{resume.label}</button>
+              </div>
+          </nav>
+        )}
         <div className="divider" />
         <main id="about" className="w-full min-h-screen flex flex-col items-center justify-center px-6 py-20">
             <div className="max-w-6xl mx-auto text-center">

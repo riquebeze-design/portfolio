@@ -58,6 +58,7 @@ const Index = () => {
       { value: '15+', label: 'Clientes Satisfeitos' },
     ],
     showAnimatedBackground: true,
+    hideNavbar: true, // Esconde a navbar interna do PortfolioPage
   };
 
   return <PortfolioPage {...customPortfolioData} />;

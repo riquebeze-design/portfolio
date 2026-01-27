@@ -1,32 +1,30 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { MadeWithDyad } from './made-with-dyad';
-import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import PublicNavbar from './PublicNavbar'; // Importando o novo componente
 
 const PublicLayout = () => {
+  const publicNavLinks = [
+    { label: 'Home', to: '/' },
+    { label: 'Trabalhos', to: '/trabalhos' },
+    { label: 'Contato', to: '/contato' },
+  ];
+
+  const handleResumeDownload = () => {
+    alert('Baixando Currículo...'); // Placeholder for resume download
+  };
+
   return (
-    <div className="flex flex-col min-h-screen text-foreground"> {/* Removed bg-gradient-to-br from-purple-50 to-indigo-100 */}
-      <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm dark:bg-black/80">
-        <nav className="container mx-auto px-4 py-4 flex justify-between items-center rounded-b-lg">
-          <Link to="/" className="text-2xl font-bold text-purple-700 hover:text-purple-900 transition-colors dark:text-purple-400 dark:hover:text-purple-200">
-            Meu Portfólio
-          </Link>
-          <div className="space-x-4">
-            <Button asChild variant="ghost" className="text-purple-700 hover:bg-purple-100 rounded-full px-6 py-3 dark:text-purple-400 dark:hover:bg-gray-800">
-              <Link to="/">Home</Link>
-            </Button>
-            <Button asChild variant="ghost" className="text-purple-700 hover:bg-purple-100 rounded-full px-6 py-3 dark:text-purple-400 dark:hover:bg-gray-800">
-              <Link to="/trabalhos">Trabalhos</Link>
-            </Button>
-            <Button asChild variant="ghost" className="text-purple-700 hover:bg-purple-100 rounded-full px-6 py-3 dark:text-purple-400 dark:hover:bg-gray-800">
-              <Link to="/contato">Contato</Link>
-            </Button>
-          </div>
-        </nav>
-      </header>
+    <div className="flex flex-col min-h-screen text-foreground">
+      <PublicNavbar
+        logoInitials="AC"
+        logoName="Antônio Cavalcanti"
+        navLinks={publicNavLinks}
+        resumeLabel="Ver Currículo"
+        onResumeClick={handleResumeDownload}
+      />
 
       <main className="flex-grow">
         <Outlet />
