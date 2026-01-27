@@ -23,7 +23,7 @@ model Work {
   year          Int
   client        String?
   description   String
-  tags          String      @db.Text // Stored as JSON string
+  tags          String      // Removido @db.Text - String já mapeia para TEXT no SQLite
   featured      Boolean     @default(false)
   status        String      @default("DRAFT") // Alterado para String, default como string literal
   coverImageUrl String
