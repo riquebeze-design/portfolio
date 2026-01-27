@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Adicionado useEffect
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -39,6 +39,7 @@ const AdminWorksPage = () => {
   const { data, isLoading, isError, error } = useQuery<{ data: Work[]; totalPages: number }>({
     queryKey: ['adminWorks', search, category, type, status, page],
     queryFn: async () => {
+      console.log('[AdminWorksPage] Fetching works with params:', { search, category, type, status, page, limit });
       const params = new URLSearchParams({
         page: page.toString(),
         limit: limit.toString(),
@@ -48,11 +49,21 @@ const AdminWorksPage = () => {
       if (type) params.append('type', type);
       if (status) params.append('status', status);
 
-      const response = await authenticatedAxios.get(`${API_URL}/admin/works?${params.toString()}`);
-      return response.data;
+      try {
+        const response = await authenticatedAxios.get(`${API_URL}/admin/works?${params.toString()}`);
+        console.log('[AdminWorksPage] Works fetched successfully:', response.data);
+        return response.data;
+      } catch (fetchError: any) {
+        console.error('[AdminWorksPage] Error fetching works:', fetchError.response?.data || fetchError.message);
+        throw fetchError; // Re-throw the error so useQuery can catch it
+      }
     },
     enabled: true,
   });
+
+  useEffect(() => {
+    console.log('[AdminWorksPage] Current State - isLoading:', isLoading, 'isError:', isError, 'error:', error, 'data:', data);
+  }, [isLoading, isError, error, data]);
 
   const deleteWorkMutation = useMutation({
     mutationFn: async (id: string) => {
