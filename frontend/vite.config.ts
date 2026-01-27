@@ -13,4 +13,7 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react/jsx-dev-runtime', 'react/jsx-runtime'],
+  },
 }));
