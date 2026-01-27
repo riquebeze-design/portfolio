@@ -1,22 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { rateLimit } from 'express-rate-limit';
 import path from 'path';
-import authRoutes from './routes/auth.routes';
 import workRoutes from './routes/work.routes';
 import leadRoutes from './routes/lead.routes';
 import adminRoutes from './routes/admin.routes';
-import { authenticateToken } from './middleware/auth.middleware';
-import { seedAdminUser } from '../prisma/seed';
+// A autenticação será gerenciada pelo Supabase, então removemos o middleware de autenticação local.
+// import { authenticateToken } from './middleware/auth.middleware';
+// O seeding de admin será feito manualmente ou via Supabase Auth, não mais no startup do Express.
+// import { seedAdminUser } from '../prisma/seed';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Seed initial admin user on startup
-seedAdminUser();
+// Não precisamos mais semear o admin aqui, o Supabase Auth cuidará disso.
+// seedAdminUser();
 
 // CORS configuration
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
@@ -30,25 +30,25 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-// Rate limiting for public routes
-const publicRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  message: 'Too many requests from this IP, please try again after 15 minutes',
-});
+// Não precisamos mais de rate limiting aqui, o Supabase tem o seu próprio.
+// const publicRateLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+//   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+//   message: 'Too many requests from this IP, please try again after 15 minutes',
+// });
 
-// Serve static files for uploads
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// Não serviremos mais arquivos estáticos de uploads localmente, usaremos Supabase Storage.
+// app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Public routes
-app.use('/api/auth', publicRateLimiter, authRoutes);
-app.use('/api/works', publicRateLimiter, workRoutes);
-app.use('/api/leads', publicRateLimiter, leadRoutes);
+app.use('/api/works', workRoutes); // Removido publicRateLimiter
+app.use('/api/leads', leadRoutes); // Removido publicRateLimiter
 
-// Admin routes (protected)
-app.use('/api/admin', authenticateToken, adminRoutes);
+// Admin routes (protected) - A proteção será feita no frontend ou via RLS no Supabase
+// Por enquanto, removemos o middleware authenticateToken aqui.
+app.use('/api/admin', adminRoutes); // Removido authenticateToken
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

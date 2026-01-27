@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { WorkCategory, WorkType, WorkStatus } from '@prisma/client';
+import { WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
 
 const workBaseSchema = z.object({
   title: z.string().min(1, 'Title is required'),

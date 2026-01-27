@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
 import { Work } from '../types/prisma.d'; // Importar a interface Work
 
 const prisma = new PrismaClient();
@@ -10,23 +10,22 @@ export const getWorks = async (req: Request, res: Response) => {
   const take = parseInt(limit as string);
 
   const where: any = {
-    status: "PUBLISHED", // Use string literal
+    status: WorkStatus.PUBLISHED, // Usando enum do Prisma
   };
 
   if (search) {
     where.OR = [
       { title: { contains: search as string, mode: 'insensitive' } },
-      // Para SQLite, a busca dentro de uma string JSON requer 'contains' na própria string
       { tags: { contains: search as string, mode: 'insensitive' } },
     ];
   }
 
   if (category) {
-    where.category = category as string;
+    where.category = category as WorkCategory; // Usando enum do Prisma
   }
 
   if (type) {
-    where.type = type as string;
+    where.type = type as WorkType; // Usando enum do Prisma
   }
 
   try {
@@ -41,9 +40,9 @@ export const getWorks = async (req: Request, res: Response) => {
     const totalWorks = await prisma.work.count({ where });
 
     // Mapeia os trabalhos para analisar as tags de string JSON para array
-    const formattedWorks: Work[] = works.map((work: any) => ({ // Adicionado tipo 'any' temporariamente para work
+    const formattedWorks: Work[] = works.map((work: any) => ({
       ...work,
-      tags: JSON.parse(work.tags), // Analisa as tags de volta para array
+      tags: JSON.parse(work.tags), // Ainda precisamos analisar as tags de volta para array para o frontend
     }));
 
     res.status(200).json({
@@ -64,7 +63,7 @@ export const getWorkBySlug = async (req: Request, res: Response) => {
 
   try {
     const work = await prisma.work.findUnique({
-      where: { slug, status: "PUBLISHED" }, // Use string literal
+      where: { slug, status: WorkStatus.PUBLISHED }, // Usando enum do Prisma
       include: { images: { orderBy: { order: 'asc' } } },
     });
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
 import slugify from 'slugify';
 import { Work } from '../../types/prisma.d'; // Importar a interface Work
 
@@ -15,21 +15,20 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
   if (search) {
     where.OR = [
       { title: { contains: search as string, mode: 'insensitive' } },
-      // Para SQLite, a busca dentro de uma string JSON requer 'contains' na própria string
       { tags: { contains: search as string, mode: 'insensitive' } },
     ];
   }
 
   if (category) {
-    where.category = category as string;
+    where.category = category as WorkCategory; // Usando enum do Prisma
   }
 
   if (type) {
-    where.type = type as string;
+    where.type = type as WorkType; // Usando enum do Prisma
   }
 
   if (status) {
-    where.status = status as string;
+    where.status = status as WorkStatus; // Usando enum do Prisma
   }
 
   try {
@@ -44,9 +43,9 @@ export const getWorksAdmin = async (req: Request, res: Response) => {
     const totalWorks = await prisma.work.count({ where });
 
     // Mapeia os trabalhos para analisar as tags de string JSON para array
-    const formattedWorks: Work[] = works.map((work: any) => ({ // Adicionado tipo 'any' temporariamente para work
+    const formattedWorks: Work[] = works.map((work: any) => ({
       ...work,
-      tags: JSON.parse(work.tags), // Analisa as tags de volta para array
+      tags: JSON.parse(work.tags), // Ainda precisamos analisar as tags de volta para array para o frontend
     }));
 
     res.status(200).json({
@@ -103,14 +102,14 @@ export const createWork = async (req: Request, res: Response) => {
       data: {
         title,
         slug: generatedSlug,
-        category,
-        type,
+        category: category as WorkCategory, // Usando enum do Prisma
+        type: type as WorkType,             // Usando enum do Prisma
         year,
         client,
         description,
         tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
-        status,
+        status: status as WorkStatus,       // Usando enum do Prisma
         coverImageUrl,
         externalUrl,
         images: {
@@ -180,14 +179,14 @@ export const updateWork = async (req: Request, res: Response) => {
       data: {
         title,
         slug: updatedSlug,
-        category,
-        type,
+        category: category as WorkCategory, // Usando enum do Prisma
+        type: type as WorkType,             // Usando enum do Prisma
         year,
         client,
         description,
         tags: JSON.stringify(tags || []), // Stringify tags array
         featured,
-        status,
+        status: status as WorkStatus,       // Usando enum do Prisma
         coverImageUrl,
         externalUrl,
         images: {

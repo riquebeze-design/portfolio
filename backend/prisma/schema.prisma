@@ -6,34 +6,53 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql" // Alterado para postgresql
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum WorkCategory {
+  BRANDING
+  WEBSITE
+  SYSTEM
+  ADVERTISING
+  THREED
+  OTHER
 }
 
+enum WorkType {
+  DESIGN
+  DEVELOPMENT
+  MARKETING
+  ANIMATION
+  PHOTOGRAPHY
+  OTHER
+}
+
+enum WorkStatus {
+  DRAFT
+  PUBLISHED
+}
+
+// O modelo User será removido, pois a autenticação será gerenciada pelo Supabase.
+// Se você precisar de perfis de usuário adicionais, eles serão criados em uma tabela separada
+// e vinculados ao ID do usuário do Supabase.
+
 model Work {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   title       String
-  slug        String   @unique
-  category    String // Alterado de WorkCategory para String
-  type        String   // Alterado de WorkType para String
+  slug        String      @unique
+  category    WorkCategory // Usando enum nativo
+  type        WorkType     // Usando enum nativo
   year        Int
   client      String?
   description String
-  tags        String   @db.Text // Stored as JSON string
-  featured    Boolean  @default(false)
-  status      String   @default("DRAFT") // Alterado de WorkStatus para String, e default para string literal
+  tags        String      @db.Text // Ainda armazenado como JSON string para flexibilidade
+  featured    Boolean     @default(false)
+  status      WorkStatus  @default(DRAFT) // Usando enum nativo
   coverImageUrl String
   externalUrl String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   images      WorkImage[]
 }
 

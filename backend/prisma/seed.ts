@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { PrismaClient, WorkCategory, WorkType, WorkStatus } from '@prisma/client'; // Importar enums do Prisma
 import dotenv from 'dotenv';
 import slugify from 'slugify';
 import path from 'path';
@@ -9,39 +8,14 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const prisma = new PrismaClient();
 
-export async function seedAdminUser() {
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-
-  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
-    console.warn('ADMIN_EMAIL or ADMIN_PASSWORD not set in .env. Skipping admin user seeding.');
-    return;
-  }
-
-  try {
-    const existingAdmin = await prisma.user.findUnique({ where: { email: ADMIN_EMAIL } });
-
-    if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
-      await prisma.user.create({
-        data: {
-          email: ADMIN_EMAIL,
-          password: hashedPassword,
-        },
-      });
-      console.log(`Admin user "${ADMIN_EMAIL}" created.`);
-    } else {
-      console.log(`Admin user "${ADMIN_EMAIL}" already exists.`);
-    }
-  } catch (error) {
-    console.error('Error seeding admin user:', error);
-  }
-}
+// A função seedAdminUser não é mais necessária, pois o Supabase Auth gerencia usuários.
+// export async function seedAdminUser() { ... }
 
 async function main() {
-  await seedAdminUser(); // Garante que o usuário admin seja semeado primeiro
+  // Não precisamos mais chamar seedAdminUser aqui.
+  // await seedAdminUser();
 
-  // Cria o diretório de uploads se não existir
+  // Cria o diretório de uploads se não existir (ainda para placeholders, mas o upload real será no Supabase Storage)
   const uploadsDir = path.join(__dirname, '..', 'uploads');
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
@@ -78,14 +52,14 @@ async function main() {
     create: {
       title: 'Website Redesign for Tech Startup',
       slug: work1Slug,
-      category: 'WEBSITE', // Use string literal
-      type: 'DEVELOPMENT', // Use string literal
+      category: WorkCategory.WEBSITE, // Usando enum nativo
+      type: WorkType.DEVELOPMENT,     // Usando enum nativo
       year: 2023,
       client: 'Innovate Solutions',
       description: 'A complete overhaul of a tech startup\'s website, focusing on modern UI/UX and improved performance. Implemented with React and Tailwind CSS.',
       tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']), // Stringify tags array
       featured: true,
-      status: 'PUBLISHED', // Use string literal
+      status: WorkStatus.PUBLISHED,   // Usando enum nativo
       coverImageUrl: placeholderImage1,
       externalUrl: 'https://example.com/tech-startup',
       images: {
@@ -106,14 +80,14 @@ async function main() {
     create: {
       title: 'Branding for Coffee Shop',
       slug: work2Slug,
-      category: 'BRANDING', // Use string literal
-      type: 'DESIGN', // Use string literal
+      category: WorkCategory.BRANDING, // Usando enum nativo
+      type: WorkType.DESIGN,          // Usando enum nativo
       year: 2022,
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
       tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
       featured: false,
-      status: 'PUBLISHED', // Use string literal
+      status: WorkStatus.PUBLISHED,   // Usando enum nativo
       coverImageUrl: placeholderImage2,
       externalUrl: null,
       images: {
