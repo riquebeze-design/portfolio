@@ -17,7 +17,7 @@ const workFormSchema = z.object({
   title: z.string().min(1, { message: 'Título é obrigatório.' }),
   slug: z.string().min(1, { message: 'Slug é obrigatório.' }).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug deve ser em kebab-case (ex: meu-novo-trabalho).'),
   category: z.nativeEnum(WorkCategory, { message: 'Categoria é obrigatória.' }),
-  type: z.nativeEnum(WorkType, { message: 'Tipo é obrigatório.' }),
+  type: z.nativeEnum(WorkType, { message: 'Tipo é obrigatória.' }),
   year: z.coerce.number().int().min(1900, 'Ano deve ser após 1900').max(2100, 'Ano deve ser antes de 2100'),
   client: z.string().optional(),
   description: z.string().min(1, { message: 'Descrição é obrigatória.' }),
@@ -98,6 +98,8 @@ export const useWorkForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminWorks'] });
       queryClient.invalidateQueries({ queryKey: ['adminStats'] });
+      queryClient.invalidateQueries({ queryKey: ['works'] }); // Invalidate public works list
+      queryClient.invalidateQueries({ queryKey: ['allPublishedWorks'] }); // Invalidate all published works for navigation
       showSuccess('Trabalho criado com sucesso!');
       navigate('/admin/works');
     },
@@ -120,6 +122,9 @@ export const useWorkForm = () => {
       queryClient.invalidateQueries({ queryKey: ['adminWorks'] });
       queryClient.invalidateQueries({ queryKey: ['adminWork', id] });
       queryClient.invalidateQueries({ queryKey: ['adminStats'] });
+      queryClient.invalidateQueries({ queryKey: ['works'] }); // Invalidate public works list
+      queryClient.invalidateQueries({ queryKey: ['work', form.getValues('slug')] }); // Invalidate specific public work detail
+      queryClient.invalidateQueries({ queryKey: ['allPublishedWorks'] }); // Invalidate all published works for navigation
       showSuccess('Trabalho atualizado com sucesso!');
       navigate('/admin/works');
     },

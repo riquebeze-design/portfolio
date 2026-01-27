@@ -2,8 +2,8 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_URL: string;
-  readonly VITE_SUPABASE_URL: string;
-  readonly VITE_SUPABASE_ANON_KEY: string;
+  // VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are now hardcoded in src/integrations/supabase/client.ts
+  // and are no longer needed as environment variables for the frontend.
   // more env variables...
 }
 
