@@ -6,12 +6,12 @@ import { Work } from '../types/prisma.d'; // Importar a interface Work
 const prisma = new PrismaClient();
 
 export const getWorks = async (req: Request, res: Response) => {
-  const { search, category, type, page = 1, limit = 10 } = req.query;
+  const { search, category, type, status = WorkStatus.PUBLISHED, featured, page = 1, limit = 10 } = req.query; // Adicionado 'featured' e status padrão
   const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
   const take = parseInt(limit as string);
 
   const where: any = {
-    status: WorkStatus.PUBLISHED, // Usando enum do backend
+    status: status as WorkStatus, // Usar o status da query, padrão para PUBLISHED
   };
 
   if (search) {
@@ -22,11 +22,15 @@ export const getWorks = async (req: Request, res: Response) => {
   }
 
   if (category) {
-    where.category = category as WorkCategory; // Usando enum do backend
+    where.category = category as WorkCategory;
   }
 
   if (type) {
-    where.type = type as WorkType; // Usando enum do backend
+    where.type = type as WorkType;
+  }
+
+  if (featured === 'true') { // Verificar se 'featured' é explicitamente 'true'
+    where.featured = true;
   }
 
   try {

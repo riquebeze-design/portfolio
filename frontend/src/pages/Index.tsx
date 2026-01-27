@@ -3,9 +3,54 @@ import { PortfolioPage, PortfolioPageProps } from "@/components/ui/starfall-port
 import { useNavigate } from 'react-router-dom';
 import { Case } from '@/components/ui/cases-with-infinite-scroll';
 import ContactForm from '@/components/ContactForm'; // Importando o NOVO componente ContactForm
+import { useQuery } from '@tanstack/react-query'; // Import useQuery
+import axios from 'axios'; // Import axios
+import { WorkCategory, WorkType } from '@/types/work'; // Import enums
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Re-using and extending the Work interface from WorksPage for consistency
+interface Work {
+  id: string;
+  title: string;
+  slug: string;
+  category: WorkCategory;
+  type: WorkType;
+  year: number;
+  coverImageUrl: string;
+  tags: string[];
+  description: string; // Adicionado description
+  featured: boolean; // Adicionado featured
+  status: string; // Adicionado status
+  externalUrl?: string;
+  images?: { url: string; order: number }[];
+}
 
 const Index = () => {
   const navigate = useNavigate();
+
+  // Buscar trabalhos em destaque
+  const { data: featuredWorksData, isLoading: isLoadingFeaturedWorks, isError: isErrorFeaturedWorks } = useQuery<Work[]>({
+    queryKey: ['featuredWorks'],
+    queryFn: async () => {
+      const response = await axios.get(`${API_URL}/works?status=PUBLISHED&featured=true&limit=3`);
+      return response.data.data; // Assumindo que a API retorna { data: [], totalPages: N }
+    },
+  });
+
+  // Mapear trabalhos buscados para o formato esperado pelo PortfolioPage
+  const featuredProjects: PortfolioPageProps['projects'] = featuredWorksData?.map(work => ({
+    title: work.title,
+    description: work.description,
+    tags: work.tags,
+    imageContent: (
+      <img
+        src={work.coverImageUrl}
+        alt={work.title}
+        className="w-full h-full object-cover rounded-lg"
+      />
+    ),
+  })) || [];
 
   const customPortfolioData: PortfolioPageProps = {
     logo: {
@@ -36,24 +81,8 @@ const Index = () => {
         onClick: () => { navigate('/contato'); },
       },
     },
-    projects: [
-      {
-        title: 'Website Redesign',
-        description: 'Um projeto de redesign completo para uma startup de tecnologia, focado em UI/UX moderno e performance.',
-        tags: ['React', 'Tailwind CSS', 'UI/UX']
-      },
-      {
-        title: 'Branding para Cafeteria',
-        description: 'Desenvolvimento de identidade de marca fresca e convidativa para uma cafeteria local.',
-        tags: ['Branding', 'Logo Design', 'Graphic Design']
-      },
-      {
-        title: 'Plataforma de E-commerce',
-        description: 'Uma loja online escalável construída com Next.js, TypeScript e Stripe.',
-        tags: ['Next.js', 'Stripe', 'Vercel'],
-        imageContent: <div className="text-2xl text-white/50">🛒</div>
-      },
-    ],
+    // Usar os projetos buscados dinamicamente aqui
+    projects: isLoadingFeaturedWorks ? [] : featuredProjects, // Mostrar array vazio enquanto carrega
     stats: [
       { value: '50+', label: 'Projetos Concluídos' },
       { value: '5+', label: 'Anos de Experiência' },
@@ -62,6 +91,12 @@ const Index = () => {
     showAnimatedBackground: true,
     hideNavbar: true, // Esconde a navbar interna do PortfolioPage
   };
+
+  // Lidar com estados de carregamento e erro para os trabalhos em destaque
+  if (isErrorFeaturedWorks) {
+    console.error("Erro ao buscar trabalhos em destaque:", isErrorFeaturedWorks);
+    // Opcionalmente, exibir uma mensagem de erro na página
+  }
 
   return (
     <div className="dark:bg-black"> {/* Adicionado dark:bg-black para garantir o fundo preto */}
