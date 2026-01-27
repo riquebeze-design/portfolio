@@ -44,8 +44,8 @@ const ContactPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-5xl font-extrabold text-purple-800 mb-12 text-center">Fale Comigo</h1>
-      <p className="text-xl text-gray-700 text-center mb-10 max-w-2xl mx-auto">
+      <h1 className="text-5xl font-extrabold text-purple-800 dark:text-purple-300 mb-12 text-center">Fale Comigo</h1>
+      <p className="text-xl text-gray-700 dark:text-gray-300 text-center mb-10 max-w-2xl mx-auto">
         Tem um projeto em mente ou apenas quer dizer olá? Preencha o formulário abaixo e entrarei em contato o mais breve possível.
       </p>
 
@@ -57,14 +57,14 @@ const ContactPage = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg text-gray-800">Nome Completo</FormLabel>
+                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Nome Completo</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
                         placeholder="Seu nome"
                         {...field}
-                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                       />
                     </div>
                   </FormControl>
@@ -77,7 +77,7 @@ const ContactPage = () => {
               name="email"
               render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg text-gray-800">Email</FormLabel>
+                    <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Email</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -85,7 +85,7 @@ const ContactPage = () => {
                           type="email"
                           placeholder="seu.email@exemplo.com"
                           {...field}
-                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                          className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                         />
                       </div>
                     </FormControl>
@@ -98,7 +98,7 @@ const ContactPage = () => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg text-gray-800">Telefone (Opcional)</FormLabel>
+                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Telefone (Opcional)</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -106,7 +106,7 @@ const ContactPage = () => {
                         type="tel"
                         placeholder="(XX) XXXXX-XXXX"
                         {...field}
-                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                        className="pl-10 pr-4 py-2 rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                       />
                     </div>
                   </FormControl>
@@ -119,13 +119,13 @@ const ContactPage = () => {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg text-gray-800">Mensagem</FormLabel>
+                  <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Mensagem</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Descreva seu projeto ou sua dúvida..."
                       rows={5}
                       {...field}
-                      className="rounded-xl border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm p-4"
+                      className="rounded-xl border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm p-4 dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
                     />
                   </FormControl>
                   <FormMessage />
@@ -140,7 +140,7 @@ const ContactPage = () => {
               {form.formState.isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
             </Button>
           </form>
-        </Form>
+        </CardContent>
       </Card>
     </div>
   );

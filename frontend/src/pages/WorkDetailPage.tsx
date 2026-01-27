@@ -63,14 +63,14 @@ const WorkDetailPage = () => {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
         <Loader2 className="h-10 w-10 animate-spin text-purple-600" />
-        <span className="ml-3 text-lg text-gray-700">Carregando detalhes do trabalho...</span>
+        <span className="ml-3 text-lg text-gray-700 dark:text-gray-300">Carregando detalhes do trabalho...</span>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-red-600 p-4">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-red-600 dark:text-red-400 p-4">
         <p className="text-xl mb-4">Erro ao carregar trabalho: {error?.message}</p>
         <Button onClick={() => navigate('/trabalhos')} className="bg-purple-600 hover:bg-purple-700 rounded-full px-6 py-3">
           <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para Trabalhos
@@ -81,7 +81,7 @@ const WorkDetailPage = () => {
 
   if (!work) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-gray-600 p-4">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-gray-600 dark:text-gray-400 p-4">
         <p className="text-xl mb-4">Trabalho não encontrado.</p>
         <Button onClick={() => navigate('/trabalhos')} className="bg-purple-600 hover:bg-purple-700 rounded-full px-6 py-3">
           <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para Trabalhos
@@ -93,16 +93,16 @@ const WorkDetailPage = () => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="flex justify-between items-center mb-8">
-        <Button onClick={() => navigate('/trabalhos')} variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+        <Button onClick={() => navigate('/trabalhos')} variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
           <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para Trabalhos
         </Button>
-        <h1 className="text-5xl font-extrabold text-purple-800 text-center flex-grow">{work.title}</h1>
+        <h1 className="text-5xl font-extrabold text-purple-800 dark:text-purple-300 text-center flex-grow">{work.title}</h1>
         <div className="w-32"></div> {/* Spacer to balance the back button */}
       </div>
 
       {/* Image Gallery */}
       {work.images && work.images.length > 0 && (
-        <Card className="mb-12 rounded-2xl shadow-xl border-2 border-purple-100">
+        <Card className="mb-12 rounded-2xl shadow-xl border-2 border-purple-100 dark:bg-card dark:border-purple-900">
           <Carousel className="w-full max-w-4xl mx-auto p-6">
             <CarouselContent>
               {work.images.map((image, index) => (
@@ -125,21 +125,21 @@ const WorkDetailPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2">
-          <h2 className="text-3xl font-bold text-purple-800 mb-4">Descrição</h2>
-          <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">{work.description}</p>
+          <h2 className="text-3xl font-bold text-purple-800 dark:text-purple-300 mb-4">Descrição</h2>
+          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{work.description}</p>
         </div>
 
-        <div className="lg:col-span-1 bg-purple-50 p-8 rounded-2xl shadow-lg border-2 border-purple-100">
-          <h2 className="text-3xl font-bold text-purple-800 mb-6">Detalhes</h2>
-          <div className="space-y-4 text-lg text-gray-700">
-            <p><strong>Categoria:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1">{work.category}</Badge></p>
-            <p><strong>Tipo:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1">{work.type}</Badge></p>
+        <div className="lg:col-span-1 bg-purple-50 p-8 rounded-2xl shadow-lg border-2 border-purple-100 dark:bg-card dark:border-purple-900">
+          <h2 className="text-3xl font-bold text-purple-800 dark:text-purple-300 mb-6">Detalhes</h2>
+          <div className="space-y-4 text-lg text-gray-700 dark:text-gray-300">
+            <p><strong>Categoria:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.category}</Badge></p>
+            <p><strong>Tipo:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.type}</Badge></p>
             <p><strong>Ano:</strong> {work.year}</p>
             {work.client && <p><strong>Cliente:</strong> {work.client}</p>}
             {work.externalUrl && (
               <p>
                 <strong>Link Externo:</strong>{' '}
-                <a href={work.externalUrl} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline flex items-center">
+                <a href={work.externalUrl} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline flex items-center dark:text-purple-400">
                   Ver Projeto <ExternalLink className="ml-1 h-4 w-4" />
                 </a>
               </p>
@@ -149,7 +149,7 @@ const WorkDetailPage = () => {
                 <strong>Tags:</strong>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {work.tags.map((tag, index) => (
-                    <Badge key={index} className="bg-purple-100 text-purple-700 rounded-full px-3 py-1">
+                    <Badge key={index} className="bg-purple-100 text-purple-700 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">
                       {tag}
                     </Badge>
                   ))}
@@ -161,9 +161,9 @@ const WorkDetailPage = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between mt-16 pt-8 border-t border-purple-200">
+      <div className="flex justify-between mt-16 pt-8 border-t border-purple-200 dark:border-purple-900">
         {prevWork ? (
-          <Button asChild variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+          <Button asChild variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
             <Link to={`/trabalhos/${prevWork.slug}`}>
               <ArrowLeft className="mr-2 h-4 w-4" /> Anterior
             </Link>

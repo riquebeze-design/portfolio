@@ -64,11 +64,11 @@ const Index = () => {
   };
 
   return (
-    <>
+    <div className="dark:bg-black"> {/* Adicionado dark:bg-black para garantir o fundo preto */}
       <PortfolioPage {...customPortfolioData} />
       <Case />
       <ContactForm /> {/* O novo componente ContactForm é colocado aqui */}
-    </>
+    </div>
   );
 };
 

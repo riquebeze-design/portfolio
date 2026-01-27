@@ -25,17 +25,17 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
     <>
       {/* Cover Image Upload */}
       <FormItem>
-        <FormLabel className="text-lg text-gray-800">Imagem de Capa</FormLabel>
+        <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Imagem de Capa</FormLabel>
         <FormControl>
           <div className="flex items-center space-x-4">
             <Input
               type="url"
               placeholder="URL da imagem de capa"
               {...form.register('coverImageUrl')}
-              className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+              className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
             />
             <label htmlFor="cover-image-upload" className="cursor-pointer">
-              <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+              <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
                 <UploadCloud className="mr-2 h-4 w-4" /> Upload
               </Button>
               <input
@@ -49,7 +49,7 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
           </div>
         </FormControl>
         {form.getValues('coverImageUrl') && (
-          <div className="mt-4 relative w-48 h-32 rounded-lg overflow-hidden border-2 border-purple-200 shadow-sm">
+          <div className="mt-4 relative w-48 h-32 rounded-lg overflow-hidden border-2 border-purple-200 shadow-sm dark:border-purple-900">
             <img src={form.getValues('coverImageUrl')} alt="Capa" className="w-full h-full object-cover" />
             <Button
               type="button"
@@ -67,18 +67,18 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
 
       {/* Gallery Images Upload */}
       <FormItem>
-        <FormLabel className="text-lg text-gray-800">Galeria de Imagens</FormLabel>
+        <FormLabel className="text-lg text-gray-800 dark:text-gray-200">Galeria de Imagens</FormLabel>
         <div className="space-y-4">
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center space-x-4 p-3 border rounded-xl border-purple-200 shadow-sm">
+            <div key={field.id} className="flex items-center space-x-4 p-3 border rounded-xl border-purple-200 shadow-sm dark:bg-card dark:border-purple-900">
               <Input
                 type="url"
                 placeholder="URL da imagem da galeria"
                 {...form.register(`images.${index}.url`)}
-                className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm"
+                className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
               />
               <label htmlFor={`gallery-image-upload-${index}`} className="cursor-pointer">
-                <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+                <Button type="button" variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
                   <UploadCloud className="mr-2 h-4 w-4" /> Upload
                 </Button>
                 <input
@@ -104,7 +104,7 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
             type="button"
             variant="outline"
             onClick={() => append({ url: '', order: fields.length })}
-            className="w-full rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50"
+            className="w-full rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900"
           >
             <PlusCircle className="mr-2 h-4 w-4" /> Adicionar Imagem
           </Button>

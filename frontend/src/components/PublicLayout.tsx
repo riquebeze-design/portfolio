@@ -19,7 +19,7 @@ const PublicLayout = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen text-foreground">
+    <div className="flex flex-col min-h-screen text-foreground dark:bg-black"> {/* Adicionado dark:bg-black aqui */}
       <PublicNavbar
         logoInitials="AC"
         logoName="Antônio Cavalcanti"

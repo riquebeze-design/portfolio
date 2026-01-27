@@ -31,7 +31,7 @@ const AdminWorkFormPage = () => {
     return (
       <div className="flex items-center justify-center h-full">
         <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
-        <span className="ml-3 text-lg text-gray-700">Carregando trabalho...</span>
+        <span className="ml-3 text-lg text-gray-700 dark:text-gray-300">Carregando trabalho...</span>
       </div>
     );
   }
@@ -39,13 +39,13 @@ const AdminWorkFormPage = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800">{isEditing ? 'Editar Trabalho' : 'Novo Trabalho'}</h1>
-        <Button onClick={() => navigate('/admin/works')} variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50">
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-white">{isEditing ? 'Editar Trabalho' : 'Novo Trabalho'}</h1>
+        <Button onClick={() => navigate('/admin/works')} variant="outline" className="rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
           <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para Trabalhos
         </Button>
       </div>
 
-      <Card className="max-w-4xl mx-auto p-8 rounded-2xl shadow-xl border-2 border-purple-100">
+      <Card className="max-w-4xl mx-auto p-8 rounded-2xl shadow-xl border-2 border-purple-100 dark:bg-card dark:border-purple-900">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <WorkDetailsFormSection form={form} isEditing={isEditing} />

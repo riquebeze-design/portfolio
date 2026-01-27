@@ -56,7 +56,7 @@ const AdminLayout = () => {
   );
 
   return (
-    <div className="flex min-h-screen text-foreground"> {/* Removed bg-gray-50 */}
+    <div className="flex min-h-screen bg-black text-foreground"> {/* Adicionado bg-black aqui */}
       {isMobile ? (
         <Sheet>
           <SheetTrigger asChild>
@@ -75,8 +75,8 @@ const AdminLayout = () => {
       )}
 
       <div className="flex-grow flex flex-col">
-        <header className="w-full bg-white/80 backdrop-blur-md shadow-sm p-4 flex items-center justify-between sticky top-0 z-40 rounded-b-lg dark:bg-black/80">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Admin Panel</h1>
+        <header className="w-full bg-black shadow-sm p-4 flex items-center justify-between sticky top-0 z-40 rounded-b-lg"> {/* Alterado para bg-black */}
+          <h1 className="text-2xl font-bold text-white">Admin Panel</h1> {/* Alterado para text-white */}
           {!isMobile && (
             <Button onClick={logout} variant="destructive" className="rounded-full px-6 py-3">
               <LogOut className="mr-2 h-4 w-4" />
