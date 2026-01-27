@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { WorkCategory, WorkType, WorkStatus } from '@/types/work'; // Corrigido para importar do types/work.ts
+import { WorkCategory, WorkType, WorkStatus } from '@/types/work'; // Esta linha é a correção crucial
 
 const workBaseSchema = z.object({
   title: z.string().min(1, 'Title is required'),
