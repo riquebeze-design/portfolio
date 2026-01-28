@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { UseFormReturn, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,9 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
   remove,
   handleFileUpload,
 }) => {
+  const coverInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   return (
     <>
       {/* Cover Image Upload */}
@@ -37,18 +40,22 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
               {...form.register('coverImageUrl')}
               className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
             />
-            <label htmlFor="cover-image-upload" className="cursor-pointer flex-shrink-0">
-              <Button type="button" variant="outline" className="w-full sm:w-auto rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
-                <UploadCloud className="mr-2 h-4 w-4" /> Upload
-              </Button>
-              <input
-                id="cover-image-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => handleFileUpload(e, true)}
-              />
-            </label>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900"
+              onClick={() => coverInputRef.current?.click()} // Trigger click on hidden input
+            >
+              <UploadCloud className="mr-2 h-4 w-4" /> Upload
+            </Button>
+            <input
+              id="cover-image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => handleFileUpload(e, true)}
+              ref={coverInputRef} // Assign ref to hidden input
+            />
           </div>
         </FormControl>
         {form.getValues('coverImageUrl') && (
@@ -83,18 +90,22 @@ const WorkImageUploadSection: React.FC<WorkImageUploadSectionProps> = ({
                 {...form.register(`images.${index}.url`)}
                 className="flex-grow rounded-full border-2 border-purple-200 focus:border-purple-500 transition-all shadow-sm dark:bg-input dark:border-border dark:text-foreground dark:placeholder:text-muted-foreground"
               />
-              <label htmlFor={`gallery-image-upload-${index}`} className="cursor-pointer flex-shrink-0">
-                <Button type="button" variant="outline" className="w-full sm:w-auto rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900">
-                  <UploadCloud className="mr-2 h-4 w-4" /> Upload
-                </Button>
-                <input
-                  id={`gallery-image-upload-${index}`}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => handleFileUpload(e, false, index)}
-                />
-              </label>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full sm:w-auto rounded-full px-6 py-3 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900"
+                onClick={() => galleryInputRefs.current[index]?.click()} // Trigger click on hidden input
+              >
+                <UploadCloud className="mr-2 h-4 w-4" /> Upload
+              </Button>
+              <input
+                id={`gallery-image-upload-${index}`}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleFileUpload(e, false, index)}
+                ref={(el) => (galleryInputRefs.current[index] = el)} // Assign ref to hidden input
+              />
               <Button
                 type="button"
                 variant="destructive"
