@@ -40,6 +40,8 @@ async function main() {
   // Semeia trabalhos de exemplo
   const work1Slug = slugify('Website Redesign for Tech Startup', { lower: true, strict: true });
   const work2Slug = slugify('Branding for Coffee Shop', { lower: true, strict: true });
+  const work3Slug = slugify('Mobile App UI/UX Design', { lower: true, strict: true });
+
 
   const work1 = await prisma.work.upsert({
     where: { slug: work1Slug },
@@ -81,7 +83,7 @@ async function main() {
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
       tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
-      featured: false,
+      featured: true, // Alterado para true
       status: WorkStatus.PUBLISHED,   // Usando enum do backend
       coverImageUrl: placeholderImage2,
       externalUrl: null,
@@ -96,6 +98,32 @@ async function main() {
   });
   console.log(`Created/Updated work: ${work2.title}`);
 
+  const work3 = await prisma.work.upsert({
+    where: { slug: work3Slug },
+    update: {},
+    create: {
+      title: 'Mobile App UI/UX Design',
+      slug: work3Slug,
+      category: WorkCategory.SYSTEM,
+      type: WorkType.DESIGN,
+      year: 2024,
+      client: 'Global Innovations',
+      description: 'Designed an intuitive and modern user interface for a new mobile application, focusing on user experience and accessibility.',
+      tags: JSON.stringify(['Mobile App', 'UI/UX', 'Figma', 'Product Design']),
+      featured: true,
+      status: WorkStatus.PUBLISHED,
+      coverImageUrl: placeholderImage3,
+      externalUrl: 'https://example.com/mobile-app',
+      images: {
+        create: [
+          { url: placeholderImage3, order: 0 },
+          { url: placeholderImage1, order: 1 },
+        ],
+      },
+    },
+    include: { images: true },
+  });
+  console.log(`Created/Updated work: ${work3.title}`);
 }
 
 main()
