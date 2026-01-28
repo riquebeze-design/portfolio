@@ -30,7 +30,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   // Buscar trabalhos em destaque
-  const { data: featuredWorksData, isLoading: isLoadingFeaturedWorks, isError: isErrorFeaturedWorks } = useQuery<Work[]>({
+  const { data: featuredWorksData, isLoading: isLoadingFeaturedWorks, isError: isErrorFeaturedWorks, error } = useQuery<Work[]>({
     queryKey: ['featuredWorks'],
     queryFn: async () => {
       const response = await axios.get(`${API_URL}/works?status=PUBLISHED&featured=true&limit=3`);
@@ -94,7 +94,7 @@ const Index = () => {
 
   // Lidar com estados de carregamento e erro para os trabalhos em destaque
   if (isErrorFeaturedWorks) {
-    console.error("Erro ao buscar trabalhos em destaque:", isErrorFeaturedWorks);
+    console.error("Erro ao buscar trabalhos em destaque:", error); // Agora loga o objeto de erro completo
     // Opcionalmente, exibir uma mensagem de erro na página
   }
 
