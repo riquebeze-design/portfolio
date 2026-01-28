@@ -132,8 +132,10 @@ const WorkDetailPage = () => {
         <div className="lg:col-span-1 bg-purple-50 p-8 rounded-2xl shadow-lg border-2 border-purple-100 dark:bg-card dark:border-purple-900">
           <h2 className="text-3xl font-bold text-purple-800 dark:text-purple-300 mb-6">Detalhes</h2>
           <div className="space-y-4 text-lg text-gray-700 dark:text-gray-300">
-            <p><strong>Categoria:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.category}</Badge></p>
-            <p><strong>Tipo:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.type}</Badge></p>
+            {/* Alterado <p> para <div> */}
+            <div><strong>Categoria:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.category}</Badge></div>
+            {/* Alterado <p> para <div> */}
+            <div><strong>Tipo:</strong> <Badge className="bg-purple-200 text-purple-800 rounded-full px-3 py-1 dark:bg-purple-900 dark:text-purple-300">{work.type}</Badge></div>
             <p><strong>Ano:</strong> {work.year}</p>
             {work.client && <p><strong>Cliente:</strong> {work.client}</p>}
             {work.externalUrl && (
