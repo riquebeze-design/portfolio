@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
+console.log(`[Backend] Configured FRONTEND_URL for CORS: ${frontendUrl}`); // Log adicionado aqui
 const corsOptions = {
   origin: frontendUrl,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

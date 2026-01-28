@@ -92,10 +92,24 @@ const Index = () => {
     hideNavbar: true, // Esconde a navbar interna do PortfolioPage
   };
 
-  // Lidar com estados de carregamento e erro para os trabalhos em destaque
+  if (isLoadingFeaturedWorks) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
+        <Loader2 className="h-10 w-10 animate-spin text-purple-600" />
+        <span className="ml-3 text-lg text-gray-700 dark:text-gray-300">Carregando trabalhos em destaque...</span>
+      </div>
+    );
+  }
+
   if (isErrorFeaturedWorks) {
-    console.error("Erro ao buscar trabalhos em destaque:", error); // Agora loga o objeto de erro completo
-    // Opcionalmente, exibir uma mensagem de erro na página
+    console.error("Erro ao buscar trabalhos em destaque:", error);
+    const errorMessage = (error as any)?.response?.data?.message || (error as any)?.message || "Verifique se o backend está rodando e acessível.";
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] text-red-600 dark:text-red-400 p-4">
+        <p className="text-xl mb-4">Erro ao carregar trabalhos em destaque: {errorMessage}</p>
+        <p className="text-md text-gray-600 dark:text-gray-400">Por favor, verifique o console do backend para mais detalhes.</p>
+      </div>
+    );
   }
 
   return (
