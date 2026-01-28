@@ -6,6 +6,7 @@ import ContactForm from '@/components/ContactForm'; // Importando o NOVO compone
 import { useQuery } from '@tanstack/react-query'; // Import useQuery
 import axios from 'axios'; // Import axios
 import { WorkCategory, WorkType } from '@/types/work'; // Import enums
+import { Loader2 } from 'lucide-react'; // Importação adicionada para Loader2
 
 const API_URL = import.meta.env.VITE_API_URL;
 
