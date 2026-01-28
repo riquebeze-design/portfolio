@@ -17,7 +17,7 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({
   name = "Antônio Cavalcanti",
   title = "Designer Gráfico & Desenvolvedor Frontend",
-  avatarUrl = "/placeholder.svg",
+  avatarUrl = "https://picsum.photos/seed/dyad-avatar/128/128", // Updated to use a generic placeholder
   githubUrl = "https://github.com/yourusername",
   linkedinUrl = "https://linkedin.com/in/yourusername",
   email = "your.email@example.com",
@@ -34,7 +34,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         "rounded-3xl shadow-2xl p-8 max-w-sm mx-auto",
         "flex flex-col items-center text-center space-y-6",
         "border-4 border-purple-300 transform hover:scale-105 transition-all duration-300 ease-in-out",
-        "dark:from-gray-900 dark:to-black dark:border-gray-700" // Adicionado estilos para dark mode
+        "dark:from-gray-900 dark:to-black dark:border-gray-700"
       )}
       variants={cardVariants}
       initial="hidden"

@@ -4,40 +4,53 @@ import slugify from 'slugify';
 import path from 'path';
 import fs from 'fs';
 import { WorkCategory, WorkType, WorkStatus } from '../src/types/shared'; // Importar enums do backend
+import bcrypt from 'bcryptjs'; // Import bcryptjs
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const prisma = new PrismaClient();
 
+async function seedAdminUser() {
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    console.warn('ADMIN_EMAIL or ADMIN_PASSWORD not set in .env. Skipping admin user seeding.');
+    return;
+  }
+
+  try {
+    const existingAdmin = await prisma.user.findUnique({ where: { email: ADMIN_EMAIL } });
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
+      await prisma.user.create({
+        data: {
+          email: ADMIN_EMAIL,
+          password: hashedPassword,
+        },
+      });
+      console.log(`Admin user "${ADMIN_EMAIL}" created.`);
+    } else {
+      console.log(`Admin user "${ADMIN_EMAIL}" already exists.`);
+    }
+  } catch (error) {
+    console.error('Error seeding admin user:', error);
+  }
+}
+
 async function main() {
-  // Cria o diretório de uploads se não existir (ainda para placeholders, mas o upload real será no Supabase Storage)
-  const uploadsDir = path.join(__dirname, '..', 'uploads');
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-  }
+  await seedAdminUser(); // Ensure admin user is seeded first
 
-  // Imagens de placeholder (você pode querer copiar imagens reais aqui)
-  const placeholderImage1 = '/uploads/placeholder-work1.jpg';
-  const placeholderImage2 = '/uploads/placeholder-work2.jpg';
-  const placeholderImage3 = '/uploads/placeholder-work3.jpg';
-
-  // Cria arquivos de imagem dummy de placeholder se não existirem
-  const dummyImagePath1 = path.join(uploadsDir, 'placeholder-work1.jpg');
-  const dummyImagePath2 = path.join(uploadsDir, 'placeholder-work2.jpg');
-  const dummyImagePath3 = path.join(uploadsDir, 'placeholder-work3.jpg');
-
-  if (!fs.existsSync(dummyImagePath1)) {
-    fs.writeFileSync(dummyImagePath1, 'This is a dummy image file for work 1.');
-  }
-  if (!fs.existsSync(dummyImagePath2)) {
-    fs.writeFileSync(dummyImagePath2, 'This is a dummy image file for work 2.');
-  }
-  if (!fs.existsSync(dummyImagePath3)) {
-    fs.writeFileSync(dummyImagePath3, 'This is a dummy image file for work 3.');
-  }
+  // Generic placeholder images from picsum.photos
+  const placeholderImage1 = 'https://picsum.photos/seed/dyad-work-1/800/600';
+  const placeholderImage2 = 'https://picsum.photos/seed/dyad-work-2/800/600';
+  const placeholderImage3 = 'https://picsum.photos/seed/dyad-work-3/800/600';
+  const placeholderImage4 = 'https://picsum.photos/seed/dyad-work-4/800/600';
+  const placeholderImage5 = 'https://picsum.photos/seed/dyad-work-5/800/600';
+  const placeholderImage6 = 'https://picsum.photos/seed/dyad-work-6/800/600';
 
 
-  // Semeia trabalhos de exemplo
+  // Seed example works
   const work1Slug = slugify('Website Redesign for Tech Startup', { lower: true, strict: true });
   const work2Slug = slugify('Branding for Coffee Shop', { lower: true, strict: true });
   const work3Slug = slugify('Mobile App UI/UX Design', { lower: true, strict: true });
@@ -49,14 +62,14 @@ async function main() {
     create: {
       title: 'Website Redesign for Tech Startup',
       slug: work1Slug,
-      category: WorkCategory.WEBSITE, // Usando enum do backend
-      type: WorkType.DEVELOPMENT,     // Usando enum do backend
+      category: WorkCategory.WEBSITE,
+      type: WorkType.DEVELOPMENT,
       year: 2023,
       client: 'Innovate Solutions',
       description: 'A complete overhaul of a tech startup\'s website, focusing on modern UI/UX and improved performance. Implemented with React and Tailwind CSS.',
-      tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']), // Stringify tags array
+      tags: JSON.stringify(['React', 'Tailwind CSS', 'UI/UX', 'Web Development']),
       featured: true,
-      status: WorkStatus.PUBLISHED,   // Usando enum do backend
+      status: WorkStatus.PUBLISHED,
       coverImageUrl: placeholderImage1,
       externalUrl: 'https://example.com/tech-startup',
       images: {
@@ -77,20 +90,20 @@ async function main() {
     create: {
       title: 'Branding for Coffee Shop',
       slug: work2Slug,
-      category: WorkCategory.BRANDING, // Usando enum do backend
-      type: WorkType.DESIGN,          // Usando enum do backend
+      category: WorkCategory.BRANDING,
+      type: WorkType.DESIGN,
       year: 2022,
       client: 'The Daily Grind',
       description: 'Developed a fresh and inviting brand identity for a local coffee shop, including logo, color palette, and marketing materials.',
-      tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']), // Stringify tags array
-      featured: true, // Alterado para true
-      status: WorkStatus.PUBLISHED,   // Usando enum do backend
+      tags: JSON.stringify(['Branding', 'Logo Design', 'Graphic Design', 'Marketing']),
+      featured: true,
+      status: WorkStatus.PUBLISHED,
       coverImageUrl: placeholderImage2,
       externalUrl: null,
       images: {
         create: [
-          { url: placeholderImage2, order: 0 },
-          { url: placeholderImage1, order: 1 },
+          { url: placeholderImage4, order: 0 },
+          { url: placeholderImage5, order: 1 },
         ],
       },
     },
@@ -116,7 +129,7 @@ async function main() {
       externalUrl: 'https://example.com/mobile-app',
       images: {
         create: [
-          { url: placeholderImage3, order: 0 },
+          { url: placeholderImage6, order: 0 },
           { url: placeholderImage1, order: 1 },
         ],
       },
